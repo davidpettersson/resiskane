@@ -1,0 +1,142 @@
+@font-face {
+    font-family: museo;
+    src: url(/static/fonts/Museo700-Regular-webfont.ttf);
+}
+
+html {
+    background-color: #ffffff;
+}
+
+body {
+}
+
+.logo {
+    font-family: museo;
+    text-shadow: black 0 0 1pt;
+}
+
+.footer {
+    margin: 1pt auto;
+    width: 550px;
+    margin-top: 2em;
+    text-align: center;
+}
+
+.footer p {
+    color: gray;
+    font-family: museo;
+    margin-top: 1em;
+}
+
+.footer p a {
+    color: gray;
+    text-decoration: none;
+    border-bottom: dotted 1pt gray;
+}
+
+.tagline {
+    font-family: museo;
+    font-size: 16pt;
+    text-align: center;
+    color: #404040;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+#logo-large-center {
+    margin-top: 24pt;
+    font-size: 96pt;
+    text-align: center;
+}
+
+#logo-small-left {
+    font-size: 24pt;
+}
+
+#start-search-box {
+    text-align: center;
+    font-family: museo;
+    font-size: 16pt;
+}
+
+#start-search-box input {
+    font-family: inherit;
+    vertical-align: middle;
+}
+
+#result-search-box td {
+    width: 300px;
+    text-align: left;
+}
+    
+#result-search-box {
+    text-align: left;
+    font-family: museo;
+    font-size: 12pt;
+}
+
+#result-search-box input {
+    font-family: inherit;
+    vertical-align: middle;
+}
+
+.did-you-mean {
+    font-size: 8pt;
+}
+    
+/* ------------- */
+
+.journeys {
+    width: 80%;
+    margin: auto;
+}
+
+.journey {
+    margin: 3em;
+}
+
+table.search-table tr td {
+    max-width: 240px;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+    vertical-align: top;
+    padding: 2px;
+}
+
+.g-spacer {
+    width: 10px;
+    vertical-align: bottom;
+}
+
+.pause {
+    vertical-align: top;
+}
+
+.g-stop {
+    border-bottom: solid 2px gray;
+    width: 60px;
+    height: 60px;
+    vertical-align: bottom;
+    font-size: 14pt;
+}
+
+.timestamp {
+    font-weight: bold;
+}
+
+.duration {
+    font-style: italic;
+}
+
+.g-travel {
+    border-bottom: solid 2px gray;
+    vertical-align: bottom;
+}
+

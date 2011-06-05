@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="logo" id="logo-small-left">
+  <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
+</div>
+
+<div id="result-search-box">
+  <form method="GET" action="/search">
+    <table>
+      <tr>
+	<td><input type="text" name="fr" placeholder="Från" value="{{fr}}"/></td>
+	<td><input type="text" name="to" placeholder="Till" value="{{to}}"/></td>
+	<td><input class="search-button" type="submit" value="Sök"/></td>
+      </tr>
+      <tr>
+	<td class="did-you-mean">
+	  Eller menade du:
+	  {% for fr_alt in fr_alts %}
+	  <a href="/search?fr={{ fr_alt }}&to={{ to }}">{{ fr_alt }}</a>
+	  {% endfor %}
+	  </td>
+	<td class="did-you-mean">
+	  Eller menade du:
+	  {% for to_alt in to_alts %}
+	  <a href="/search?fr={{ fr }}&to={{ to_alt }}">{{ to_alt }}</a>
+	  {% endfor %}
+	</td>
+	<td></td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+  <h2>Funna resor</h2>
+  <div class="journeys">
+    {% for journey in journeys %}
+    <div class="journey">
+      <table>
+        <tr>
+	  <!-- icon row -->
+	  {% for link in journey %}
+  	  <td class="g-stop" style="border-color: {{ link.color }};">⚐</td>
+	  <td class="g-travel" style="border-color: {{ link.color }}; width: {{ link.pixel_length }}px">{{ link.transport_type }}</td>
+  	  <td class="g-stop" style="border-color: {{ link.color }};">⚐</td>
+	  {% if not forloop.last %}
+	  <td class="g-spacer"></td>
+	  {% endif %}
+	  {% endfor %}
+	</tr>
+        <tr>
+	  <!-- time row -->
+	  {% for link in journey %}
+  	  <td><span class="timestamp">{{ link.departure_time }}</span></td>
+	  <td><span class="duration">{{ link.duration }} min</span></td>
+  	  <td><span class="timestamp">{{ link.arrival_time }}</span></td>
+	  {% if not forloop.last %}
+	  <td></td>
+	  {% endif %}
+	  {% endfor %}
+	</tr>
+        <tr>
+	  <!-- station row -->
+	  {% for link in journey %}
+  	  <td>{{ link.departure_name }}</td>
+	  <td></td>
+  	  <td>{{ link.arrival_name }}</td>
+	  {% if not forloop.last %}
+	  <td></td>
+	  {% endif %}
+	  {% endfor %}
+	</tr>
+      </table>
+
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}
