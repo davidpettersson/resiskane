@@ -1,0 +1,10 @@
+[
+{% for s in stations %}
+  {
+    "id": "{{ s.getId }}",
+    "label": "{{ s.getName }}",
+    "value": "{{ s.getName }}"
+  }{% if not forloop.last %},{% endif %}
+{% endfor %}
+]
+

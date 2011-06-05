@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="logo" id="logo-large-center">
+  <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
+</div>
+
+<div class="tagline">
+  <p>En alternativ sökmotor (under utveckling) för resor med Skånetrafiken</p>
+</div>
+
+<div id="start-search-box">
+  <form method="GET" action="/search">
+    <input id="search_fr" type="text" name="fr" placeholder="Från"/>
+    <input id="search_to" type="text" name="to" placeholder="Till"/>
+    <input class="search-button" type="submit" value="Sök"/>
+  </form>
+</div>
+{% endblock %}
