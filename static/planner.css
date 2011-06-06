@@ -1,6 +1,17 @@
 @font-face {
-    font-family: museo;
+    font-family: museo-heavy;
     src: url(/static/fonts/Museo700-Regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: museo-normal;
+    src: url(/static/fonts/Museo500-Regular-webfont.ttf);
+}
+
+
+@font-face {
+    font-family: museo-light;
+    src: url(/static/fonts/Museo300-Regular-webfont.ttf);
 }
 
 html {
@@ -10,9 +21,19 @@ html {
 body {
 }
 
+h2 {
+    font-family: museo-normal;
+    font-size: 16pt;
+}
+
+h3 {
+    font-family: museo-normal;
+    font-size: 14pt;
+    margin-bottom: 2pt;
+}
+
 .logo {
-    font-family: museo;
-    text-shadow: black 0 0 1pt;
+    font-family: museo-heavy;
 }
 
 .footer {
@@ -24,18 +45,18 @@ body {
 
 .footer p {
     color: gray;
-    font-family: museo;
+    font-family: museo-normal;
     margin-top: 1em;
 }
 
 .footer p a {
     color: gray;
     text-decoration: none;
-    border-bottom: dotted 1pt gray;
+    border<-bottom: dotted 1pt gray;
 }
 
 .tagline {
-    font-family: museo;
+    font-family: museo-normal;
     font-size: 16pt;
     text-align: center;
     color: #404040;
@@ -47,15 +68,17 @@ body {
     margin-top: 24pt;
     font-size: 96pt;
     text-align: center;
+    text-shadow: black 1pt 1pt 3pt;
 }
 
 #logo-small-left {
-    font-size: 24pt;
+    font-size: 48pt;
+    text-shadow: gray 1pt 1pt 2pt;
 }
 
 #start-search-box {
     text-align: center;
-    font-family: museo;
+    font-family: museo-normal;
     font-size: 16pt;
 }
 
@@ -64,79 +87,107 @@ body {
     vertical-align: middle;
 }
 
-#result-search-box td {
-    width: 300px;
-    text-align: left;
+#result-search-box {
+    font-family: museo-normal;
+    background-color: lightgray;
+    padding: 3pt;
+    border: solid 1pt gray;
+    border-radius: 2pt;
+    margin-bottom: 1em;
 }
     
-#result-search-box {
-    text-align: left;
-    font-family: museo;
-    font-size: 12pt;
+#result-search-box p {
+    margin-bottom: 6pt;
+    font-family: inherit;
 }
 
 #result-search-box input {
     font-family: inherit;
-    vertical-align: middle;
+    width: 90%;
 }
 
-.did-you-mean {
+p.did-you-mean {
     font-size: 8pt;
+    font-style: italic;
+    font-family: museo-light;
 }
     
 /* ------------- */
 
+.prefix-journeys {
+    margin-bottom: 1em;
+    font-family: museo-light;
+}
+
 .journeys {
-    width: 80%;
-    margin: auto;
 }
 
 .journey {
-    margin: 3em;
+    margin-top: 1em;
+    margin-bottom: 2em;
 }
 
-table.search-table tr td {
-    max-width: 240px;
-    text-align: left;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-td {
+.journey .link {
+    display: inline-block;
+    padding: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
-    vertical-align: top;
-    padding: 2px;
+    border-radius: 3pt;
+    font-family: museo-normal;
 }
 
-.g-spacer {
-    width: 10px;
-    vertical-align: bottom;
+.innerHtml p {
+    margin: 4pt;
 }
 
-.pause {
-    vertical-align: top;
+.box-base {
+    text-shadow: gray 1pt 1pt 1pt;
+    font-size: 8pt;
+    color: white;
 }
 
-.g-stop {
-    border-bottom: solid 2px gray;
-    width: 60px;
-    height: 60px;
-    vertical-align: bottom;
-    font-size: 14pt;
+.box-color-purple {
+    background-color: #9933cc;
+    background-image: -webkit-linear-gradient(top, #cc66ff, #9933cc);
+    background-image: -moz-linear-gradient(top, #cc66ff, #9933cc);
+}
+.box-color-yellow {
+    background-color: #ffcc00;
+    background-image: -webkit-linear-gradient(top, #fff022, #ffcc00);
+    background-image: -moz-linear-gradient(top, #fff022, #ffcc00);
 }
 
-.timestamp {
-    font-weight: bold;
+.box-color-lightgray {
+    background-color: #aaaaaa;
+    background-image: -webkit-linear-gradient(top, #eeeeee, #aaaaaa);
+    background-image: -moz-linear-gradient(top, #eeeeee, #aaaaaa);
 }
 
-.duration {
-    font-style: italic;
+.box-color-gray {
+    background-color: #888888;
+    background-image: -webkit-linear-gradient(top, #e0e0e0, #888888);
+    background-image: -moz-linear-gradient(top, #e0e0e0, #888888);
 }
 
-.g-travel {
-    border-bottom: solid 2px gray;
-    vertical-align: bottom;
+.box-color-black {
+    background-color: #000000;
+    background-image: -webkit-linear-gradient(top, #a0a0a0, #000000);
+    background-image: -moz-linear-gradient(top, #a0a0a0, #000000);
 }
 
+.box-color-green {
+    background-color: #009933;
+    background-image: -webkit-linear-gradient(top, #33cc66, #009933);
+    background-image: -moz-linear-gradient(top, #33cc66, #009933);
+}
+
+.box-color-blue {
+    background-color: #003399;
+    background-image: -webkit-linear-gradient(top, #3366cc, #003399);
+    background-image: -moz-linear-gradient(top, #3366cc, #003399);
+}
+
+.journey .link {
+    display: inline-block;
+}

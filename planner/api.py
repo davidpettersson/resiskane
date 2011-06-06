@@ -53,19 +53,24 @@ TRANSPORT_MAP = {
     8: 'Pendeln',
     16: 'Öresundståg',
     32: 'Pågatåg',
-    64: 'färja',
+    64: 'tågbuss',
+    128: 'färja',
 }
 
 def _parse_transport_type(ns, l):
     tid = int(l.find(ns + 'LineTypeId').text)
     return TRANSPORT_MAP[tid]
 
+def _parse_transport_name(ns, l):
+    return l.find(ns + 'Name').text
+
 def _parse_route_link(ns, r):
     return Link(_parse_date_time(ns, r.find(ns + 'DepDateTime')),
                 _parse_station(ns, r.find(ns + 'From')),
                 _parse_date_time(ns, r.find(ns + 'ArrDateTime')),
                 _parse_station(ns, r.find(ns + 'To')),
-                _parse_transport_type(ns, r.find(ns + 'Line')))
+                _parse_transport_type(ns, r.find(ns + 'Line')),
+                _parse_transport_name(ns, r.find(ns + 'Line')))
 
 def _parse_journey(ns, j):
     rs = j.findall('%sRouteLinks/%sRouteLink' % (ns, ns))
@@ -82,6 +87,7 @@ def search_journey(start, stop, when):
                                           'selPointTo': '%s|%d|0' % (stop.getName().encode('utf-8'), stop.getId()),
                                           })
     body = _send_req(url)
+    open('/tmp/lastreq.xml', 'w').write(body)
     tree = ElementTree()
     tree.parse(StringIO(body))
     root = tree.getroot()

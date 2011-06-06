@@ -1,78 +1,148 @@
 {% extends "base.html" %}
-{% block content %}
+{% block script %}
+  $(document).ready(function(){
 
-<div class="logo" id="logo-small-left">
-  <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
-</div>
+    //create a bubble popup for each DOM element with class attribute as "text", "button" or "link" and LI, P, IMG elements.
+    $('.link').CreateBubblePopup({
+      position : 'top',
+      align : 'center',
+      innerHtml: '',
+      innerHtmlStyle: { color:'#000000', 'text-align':'center' },
+      themeName: 'azure',
+      themePath: '/static/jquery-bubble-popup/themes/'
+    });
 
-<div id="result-search-box">
-  <form method="GET" action="/search">
-    <table>
-      <tr>
-	<td><input type="text" name="fr" placeholder="Från" value="{{fr}}"/></td>
-	<td><input type="text" name="to" placeholder="Till" value="{{to}}"/></td>
-	<td><input class="search-button" type="submit" value="Sök"/></td>
-      </tr>
-      <tr>
-	<td class="did-you-mean">
-	  Eller menade du:
-	  {% for fr_alt in fr_alts %}
-	  <a href="/search?fr={{ fr_alt }}&to={{ to }}">{{ fr_alt }}</a>
-	  {% endfor %}
-	  </td>
-	<td class="did-you-mean">
-	  Eller menade du:
-	  {% for to_alt in to_alts %}
-	  <a href="/search?fr={{ fr }}&to={{ to_alt }}">{{ to_alt }}</a>
-	  {% endfor %}
-	</td>
-	<td></td>
-      </tr>
-    </table>
-  </form>
-</div>
+    $('.link').mouseover(function() {
+      var link = $(this);
+      link.SetBubblePopupInnerHtml(link.find('span.innerHtml').html());
+    });
+  });
+{% endblock %}
+{% block body %}
+<body class="yui-skin-sam">
 
-  <h2>Funna resor</h2>
+
+  <div id="doc2" class="yui-t4">
+    <div id="hd">
+
+      <!-- logo -->
+      <h1 class="logo" id="logo-small-left">
+	<a href="/" style="text-decoration: none;"><span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span></a>
+      </h1>
+      
+    </div>
+    <div id="bd">
+      <div id="yui-main">
+	<div class="yui-b">
+	  <div class="yui-g">
+	    <!-- YOUR DATA GOES HERE -->
+
+  <div class="prefix-journeys">
+    <h2>Funna resor</h2>
+
+    <p>Kom ihåg att denna tjänst är under utveckling. Använd
+    sökresultaten på egen risk. Tänk på att förseningar och inställda
+    färdmedel/sträckor inte syns här ännu. Vill du vara 100% säker,
+    använd <a href="http://www.skanetrafiken.se">Skånetrafikens
+    officiella tjänst</a>.</p>
+
+    <p>Observera att resegarantin ej täcker att du missat något resa
+    pga felaktig information från denna webbplats.</p>
+
+  </div>
+  
   <div class="journeys">
     {% for journey in journeys %}
     <div class="journey">
-      <table>
-        <tr>
-	  <!-- icon row -->
-	  {% for link in journey %}
-  	  <td class="g-stop" style="border-color: {{ link.color }};">⚐</td>
-	  <td class="g-travel" style="border-color: {{ link.color }}; width: {{ link.pixel_length }}px">{{ link.transport_type }}</td>
-  	  <td class="g-stop" style="border-color: {{ link.color }};">⚐</td>
-	  {% if not forloop.last %}
-	  <td class="g-spacer"></td>
-	  {% endif %}
-	  {% endfor %}
-	</tr>
-        <tr>
-	  <!-- time row -->
-	  {% for link in journey %}
-  	  <td><span class="timestamp">{{ link.departure_time }}</span></td>
-	  <td><span class="duration">{{ link.duration }} min</span></td>
-  	  <td><span class="timestamp">{{ link.arrival_time }}</span></td>
-	  {% if not forloop.last %}
-	  <td></td>
-	  {% endif %}
-	  {% endfor %}
-	</tr>
-        <tr>
-	  <!-- station row -->
-	  {% for link in journey %}
-  	  <td>{{ link.departure_name }}</td>
-	  <td></td>
-  	  <td>{{ link.arrival_name }}</td>
-	  {% if not forloop.last %}
-	  <td></td>
-	  {% endif %}
-	  {% endfor %}
-	</tr>
-      </table>
-
+      <h3>Alternativ {{ forloop.counter }} – {{ journey.0.remains }}</h3>
+      {% for link in journey %}
+      {% if forloop.first %}
+      <span class="link prefix">{{ link.when }}</span>
+      {% else %}
+      <span class="link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
+	{{ link.transport_short }}
+	<span style="display: none;">
+	  <span class="innerHtml">
+	    <p>Avgår {{ link.departure_time }} från {{ link.departure_name }},<br/>
+	      ankomst kl {{ link.arrival_time }} till {{ link.arrival_name }}.</p>
+	    <p>Färdmedel {{ link.transport|lower }}, restid {{ link.duration }} minuter.</p>
+	  </span>
+	</span>
+      </span>
+      {% endif %}
+      {% endfor %}
     </div>
     {% endfor %}
   </div>
+
+	  </div>
+	</div>
+      </div>
+      <div class="yui-b">
+
+	<!-- search boxes -->
+<div id="result-search-box">
+  <form method="GET" action="/search">
+
+    <p>
+      Från:<br/>
+      <input id="search_fr" type="text" name="fr" placeholder="Från" value="{{fr}}"/>
+    </p>
+
+    <p class="did-you-mean">
+      Eller menade du:
+      {% for fr_alt in fr_alts %}
+      <a href="/search?fr={{ fr_alt }}&to={{ to }}">{{ fr_alt }}</a>{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    </p>
+
+    <p>
+      Till:<br/>
+      <input id="search_to" type="text" name="to" placeholder="Till" value="{{to}}"/>
+    </p>
+
+    <p class="did-you-mean">
+      Eller menade du:
+      {% for to_alt in to_alts %}
+      <a href="/search?fr={{ fr }}&to={{ to_alt }}">{{ to_alt }}</a>{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    </p>
+    
+    <p>
+      <input class="search-button" type="submit" value="Sök"/>
+    </p>
+
+  </form>
+</div>
+
+<div style="margin-top: 1em;">
+<iframe src="http://www.facebook.com/plugins/like.php?app_id=114754585278480&amp;href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FRes-i-Sk%25C3%25A5ne%2F191202220926859&amp;send=false&amp;layout=button_count&amp;width=180&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:21px;" allowTransparency="true"></iframe></div>
+
+<div style="margin-top: 1em;">
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.resiskane.se" data-text="Kolla in nya reseplaneraren Res i Skåne!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
+
+<div style="margin-top: 1em;">
+<a href='http://www.mozilla.org/firefox?WT.mc_id=aff_en01&WT.mc_ev=click'><img src='http://www.mozilla.org/contribute/buttons/110x32arrow_b.png' alt='Firefox Download Button' border='0' /></a>
+</div>
+
+      </div>
+    </div>
+    <div id="ft">
+      <div class="footer">
+	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.<br/>(Vi har haft lite strul med e-posten, hör av dig igenom du försökt kontakta oss nyligen.)</p>
+
+	<p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.<br/>
+Använder du Android? Prova då <a href="https://market.android.com/details?id=info.lokaltrafik.skaone">Lokaltrafik Skåne</a>.</p>
+
+	<p style="color: #aa7777;">Denna webbplats drivs ej av Skånetrafiken.</p>
+
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
+
+{% block content %}
+
+
 {% endblock %}

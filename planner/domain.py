@@ -16,16 +16,19 @@ class Journey(object):
         self._links.append(link)
     def getLinks(self):
         return self._links
+    def getTotalDuration(self):
+        return sum(map(lambda l: l.getDuration(), self._links))
     def __repr__(self):
         return u'Journey[links=%d]' % len(self._links)
 
 class Link(object):
-    def __init__(self, departure_time, departure_pt, arrival_time, arrival_pt, transport_type):
+    def __init__(self, departure_time, departure_pt, arrival_time, arrival_pt, transport_type, transport_name):
         self._d_t = departure_time
         self._d_p = departure_pt
         self._a_t = arrival_time
         self._a_p = arrival_pt
         self._transport_type = transport_type
+        self._transport_name = transport_name
     def getArrivalTime(self):
         return self._a_t
     def getDepartureTime(self):
@@ -34,6 +37,8 @@ class Link(object):
         return self._a_p
     def getDepartureStation(self):
         return self._d_p
+    def getTransportName(self):
+        return self._transport_name
     def getTransportType(self):
         return self._transport_type
     def getDuration(self):
