@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render_to_response
 from api import search_station, search_journey
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class LinkView:
     def __init__(self, link):
@@ -11,15 +11,66 @@ class LinkView:
     def arrival_name(self):
         return self._link.getArrivalStation().getName()
     def pixel_length(self):
-        return self._link.getDuration().seconds / 60 * 3
+        return min(120, self._link.getDuration().seconds / 60) * 3 + 20
     def departure_time(self):
         return self._link.getDepartureTime().strftime("%H:%M")
     def arrival_time(self):
         return self._link.getArrivalTime().strftime("%H:%M")
+    def transport_name(self):
+        return self._link.getTransportName()
     def transport_type(self):
         return self._link.getTransportType()
     def duration(self):
         return self._link.getDuration().seconds / 60
+    def transport_short(self):
+        return self.transport(True)
+    def transport(self, allow_short=False):
+        name = self._link.getTransportName()
+        type_ = self._link.getTransportType()
+        short = ' '
+        if type_ in 'Pågatåg':
+            if allow_short and self.pixel_length() < 40:
+                short = 'P-tåg'
+            else:
+                short = 'Pågatåg'
+        elif type_ in 'Öresundståg':
+            if allow_short and self.pixel_length() < 70:
+                short = 'Ö-tåg'
+            else:
+                short = 'Öresundståg'
+        elif type_ in [ 'regionbuss', 'Pendeln', 'stadsbuss' ]:
+            if allow_short and self.pixel_length() < 40:
+                short = name
+            else:
+                short = 'Buss %s' % name
+        elif type_ in 'Skåneexpressen':
+            if allow_short and self.pixel_length() < 90:
+                short = 'SkE %s' % name.split()[1]
+            else:
+                short = u'SkåneExpressen %s' % name.split()[1]
+        elif type_ in 'färja':
+            short = name
+        elif type_ in 'gång':
+            short = 'Gång'
+        return short
+    def type_abbrev(self):
+        TYPE_MAP = {
+            'Pågatåg': 'tåg',
+            'regionbuss': 'buss',
+            'Pendeln': 'buss',
+            'Skåneexpressen': 'buss',
+            'stadsbuss': 'buss',
+            'Öresundståg': 'tåg',
+            'färja': 'färja',
+            'gång': 'gång',
+            'bil': 'bil',
+            }
+        t = self._link.getTransportType()
+        if TYPE_MAP.has_key(t):
+            return TYPE_MAP[t]
+        else:
+            return ' '
+        
     def color(self):
         COLOR_MAP = {
             'Pågatåg': 'purple',
@@ -29,6 +80,7 @@ class LinkView:
             'stadsbuss': 'green',
             'Öresundståg': 'gray',
             'färja': 'blue',
+            'bil': 'black',
             }
         t = self._link.getTransportType()
         if COLOR_MAP.has_key(t):
@@ -38,7 +90,45 @@ class LinkView:
 
 def transform_journey(j):
     links = j.getLinks()
-    return map(lambda l: LinkView(l), links)
+    now = datetime.now()
+    departure = links[0].getDepartureTime()
+    one_day = timedelta(days=1)
+    if departure.day == now.day:
+        day_ref = departure.strftime('idag %H:%M')
+    elif departure.day == (now + one_day).day:
+        day_ref = departure.strftime('imorgon %H:%M')
+    elif departure.day == (now + one_day + one_day).day:
+        day_ref = departure.strftime('i övermorgon %H:%M')
+    else:
+        day_ref = departure.strftime('%Y-%m-%d, %H:%M')
+    delta = departure - now
+    remainder = int(delta.days * 24 * 60 + delta.seconds / 60)
+    if remainder < 3:
+        time_left = 'just nu'
+    elif remainder < 13:
+        time_left = 'om några minuter'
+    elif remainder < 16:
+        time_left = 'om en kvart'
+    elif remainder < 35:
+        time_left = 'inom en halvtimme'
+    elif remainder == 45:
+        time_left = 'om trekvart'
+    elif remainder < 60:
+        time_left = 'inom en timme'
+    elif remainder < 120:
+        time_left = 'inom två timmar'
+    elif remainder < 180:
+        time_left = 'inom tre timmar'
+    else:
+        time_left = 'om %d timmar' % (remainder / 60)
+    
+    prefix = {
+        'when': day_ref,
+        'remains': time_left,
+        }
+    views = map(lambda l: LinkView(l), links)
+    views.insert(0, prefix)
+    return views
 
 def transform_journeys(js):
     return map(transform_journey, js)
