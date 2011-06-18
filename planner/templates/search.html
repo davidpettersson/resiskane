@@ -14,7 +14,7 @@
 
     $('.link').mouseover(function() {
       var link = $(this);
-      link.SetBubblePopupInnerHtml(link.find('span.innerHtml').html());
+      link.SetBubblePopupInnerHtml(link.find('div.innerHtml').html());
     });
   });
 {% endblock %}
@@ -27,7 +27,7 @@
 
       <!-- logo -->
       <h1 class="logo" id="logo-small-left">
-	<a href="/" style="text-decoration: none;"><span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span></a>
+	<a href="/" style="text-decoration: none;"><span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span></a><span class="beta">beta</span>
       </h1>
       
     </div>
@@ -59,16 +59,16 @@
       {% if forloop.first %}
       <span class="link prefix">{{ link.when }}</span>
       {% else %}
-      <span class="link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
+      <div class="link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
 	{{ link.transport_short }}
-	<span style="display: none;">
-	  <span class="innerHtml">
+	<div style="display: none;">
+	  <div class="innerHtml">
 	    <p>Avgår {{ link.departure_time }} från {{ link.departure_name }},<br/>
 	      ankomst kl {{ link.arrival_time }} till {{ link.arrival_name }}.</p>
 	    <p>Färdmedel {{ link.transport|lower }}, restid {{ link.duration }} minuter.</p>
-	  </span>
-	</span>
-      </span>
+	  </div>
+	</div>
+      </div>
       {% endif %}
       {% endfor %}
     </div>
@@ -82,7 +82,7 @@
 
 	<!-- search boxes -->
 <div id="result-search-box">
-  <form method="GET" action="/search">
+  <form method="get" action="/search">
 
     <p>
       Från:<br/>
@@ -92,7 +92,7 @@
     <p class="did-you-mean">
       Eller menade du:
       {% for fr_alt in fr_alts %}
-      <a href="/search?fr={{ fr_alt }}&to={{ to }}">{{ fr_alt }}</a>{% if not forloop.last %},{% endif %}
+      <a href="/search?fr={{ fr_alt }}&amp;to={{ to }}">{{ fr_alt }}</a>{% if not forloop.last %},{% endif %}
       {% endfor %}
     </p>
 
@@ -104,7 +104,7 @@
     <p class="did-you-mean">
       Eller menade du:
       {% for to_alt in to_alts %}
-      <a href="/search?fr={{ fr }}&to={{ to_alt }}">{{ to_alt }}</a>{% if not forloop.last %},{% endif %}
+      <a href="/search?fr={{ fr }}&amp;to={{ to_alt }}">{{ to_alt }}</a>{% if not forloop.last %},{% endif %}
       {% endfor %}
     </p>
     
@@ -116,20 +116,32 @@
 </div>
 
 <div style="margin-top: 1em;">
+<iframe src="http://www.facebook.com/plugins/like.php?app_id=215717241792160&amp;href=http%3A%2F%2Fwww.resiskane.se&amp;send=false&amp;layout=button_count&amp;width=160&amp;show_faces=true&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:160px; height:21px;" allowTransparency="true"></iframe></div>
+
+<!--
+<div style="margin-top: 1em;">
 <iframe src="http://www.facebook.com/plugins/like.php?app_id=114754585278480&amp;href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FRes-i-Sk%25C3%25A5ne%2F191202220926859&amp;send=false&amp;layout=button_count&amp;width=180&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:21px;" allowTransparency="true"></iframe></div>
+-->
 
 <div style="margin-top: 1em;">
 <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.resiskane.se" data-text="Kolla in nya reseplaneraren Res i Skåne!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
 
-<div style="margin-top: 1em;">
-<a href='http://www.mozilla.org/firefox?WT.mc_id=aff_en01&WT.mc_ev=click'><img src='http://www.mozilla.org/contribute/buttons/110x32arrow_b.png' alt='Firefox Download Button' border='0' /></a>
+<hr/>
+
+<div style="margin-top: 1em; font-family: museo-light">
+<p>Denna sajt (och många andra) fungerar bäst om du har en modern webbläsare såsom <a href="http://www.mozilla.com/sv-SE/firefox/">Firefox</a> eller <a href="http://www.google.com/chrome">Chrome</a>. Ladda hem en av dem nu!</p>
+<!-- <a href='http://www.mozilla.org/firefox?WT.mc_id=aff_en01&WT.mc_ev=click'><img src='http://www.mozilla.org/contribute/buttons/110x32arrow_b.png' alt='Firefox Download Button' border='0' /></a> -->
 </div>
 
+<hr/>
+
+<div style="margin-top: 1em; font-family: museo-light;"><p>Besök vår Get Satisfaction-sajt och <a href="http://getsatisfaction.com/resiskane">berätta vad du tycker</a>! Alla tips, frågor och idéer mottages tacksamt!</p></div>
       </div>
     </div>
     <div id="ft">
       <div class="footer">
-	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.<br/>(Vi har haft lite strul med e-posten, hör av dig igenom du försökt kontakta oss nyligen.)</p>
+
+	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
 
 	<p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.<br/>
 Använder du Android? Prova då <a href="https://market.android.com/details?id=info.lokaltrafik.skaone">Lokaltrafik Skåne</a>.</p>
@@ -139,6 +151,24 @@ Använder du Android? Prova då <a href="https://market.android.com/details?id=i
       </div>
     </div>
   </div>
+
+<!-- Get Satisfaction! -->
+<script type="text/javascript" charset="utf-8">
+  var is_ssl = ("https:" == document.location.protocol);
+  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  var feedback_widget_options = {};
+  feedback_widget_options.display = "overlay";  
+  feedback_widget_options.company = "resiskane";
+  feedback_widget_options.placement = "left";
+  feedback_widget_options.color = "#222";
+  feedback_widget_options.style = "idea";
+  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+</script>
+
 </body>
 {% endblock %}
 

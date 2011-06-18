@@ -10,12 +10,12 @@
 	
 	<!-- logo -->
 	<h1 class="logo" id="logo-large-center">
-	  <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
+	  <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span><span class="beta">beta</span>
 	</h1>	
 
 	<!-- tagline -->
 	<div class="tagline">
-	  <p>En alternativ sökmotor (under utveckling) för resor med Skånetrafiken</p>
+	  <p>En alternativ reseplanerare för resor med kollektivtrafiken i Skåne.</p>
 	</div>
 
 	<!-- search box -->
@@ -32,7 +32,7 @@
 
     <div id="ft">
       <div class="footer">
-	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.<br/>(Vi har haft lite strul med e-posten, hör av dig igenom du försökt kontakta oss nyligen.)</p>
+	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
 
 	<p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.<br/>
 Använder du Android? Prova då <a href="https://market.android.com/details?id=info.lokaltrafik.skaone">Lokaltrafik Skåne</a>.</p>
@@ -43,5 +43,24 @@ Använder du Android? Prova då <a href="https://market.android.com/details?id=i
     </div>
 
   </div>
+
+<!-- Get Satisfaction! -->
+<script type="text/javascript" charset="utf-8">
+  var is_ssl = ("https:" == document.location.protocol);
+  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  var feedback_widget_options = {};
+  feedback_widget_options.display = "overlay";  
+  feedback_widget_options.company = "resiskane";
+  feedback_widget_options.placement = "left";
+  feedback_widget_options.color = "#222";
+  feedback_widget_options.style = "idea";
+  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+</script>
+
+
 </body>
 {% endblock %}
