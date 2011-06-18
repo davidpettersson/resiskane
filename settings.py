@@ -1,10 +1,8 @@
-# Django settings for resiskane project.
-
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('David Pettersson', 'info@resiskane.seOB'),
+    ('Information Desk', 'info@resiskane.se'),
 )
 
 MANAGERS = ADMINS
@@ -39,7 +37,6 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 import secret_key
 SECRET_KEY = secret_key.SECRET_KEY
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
