@@ -39,7 +39,7 @@ class LinkView:
             else:
                 short = 'Öresundståg'
         elif type_ in [ 'regionbuss', 'Pendeln', 'stadsbuss' ]:
-            if allow_short and self.pixel_length() < 40:
+            if allow_short and self.pixel_length() < 45:
                 short = name
             else:
                 short = 'Buss %s' % name
@@ -154,6 +154,9 @@ def search(req):
 
 def css(req):
     return render_to_response('planner.css')
+
+def robots(req):
+    return render_to_response('robots.txt')
 
 def ajax_stations(req):
     stations = search_station(req.GET['term'].encode('iso-8859-1'))
