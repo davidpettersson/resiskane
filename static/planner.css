@@ -77,6 +77,26 @@ hr {
     margin-bottom: 1em;
 }
 
+p.search-error-messages {
+    font-family: museo-normal;
+    font-size: 11pt;
+    text-align: center;
+    margin-top: 1em;
+    background-color: #FF6;
+    padding: 0;
+    width: 30em;
+    margin-left: auto;
+    margin-right: auto;
+    -moz-border-radius-topleft: 5pt;
+    -webkit-border-top-left-radius: 5pt;
+    -moz-border-radius-topright: 5pt;
+    -webkit-border-top-right-radius: 5pt;
+    -moz-border-radius-bottomleft: 5pt;
+    -webkit-border-bottom-left-radius: 5pt;
+    -moz-border-radius-bottomright: 5pt;
+    -webkit-border-bottom-right-radius: 5pt;
+}
+
 #logo-large-center {
     margin-top: 24pt;
     font-size: 96pt;
