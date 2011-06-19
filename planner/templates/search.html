@@ -16,6 +16,9 @@
       var link = $(this);
       link.SetBubblePopupInnerHtml(link.find('div.innerHtml').html());
     });
+
+    $('.journey').hide();
+    $('.journey').slideDown(400, 'easeInOutSine');
   });
 {% endblock %}
 {% block body %}
