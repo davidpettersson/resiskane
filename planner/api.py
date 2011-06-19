@@ -87,7 +87,8 @@ def search_journey(start, stop, when):
                                           'selPointTo': '%s|%d|0' % (stop.getName().encode('utf-8'), stop.getId()),
                                           })
     body = _send_req(url)
-    open('/tmp/lastreq.xml', 'w').write(body)
+    open('/tmp/lastreq.xml', 'w').write(url)
+    open('/tmp/lastrep.xml', 'w').write(body)
     tree = ElementTree()
     tree.parse(StringIO(body))
     root = tree.getroot()
