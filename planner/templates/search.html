@@ -3,7 +3,7 @@
   $(document).ready(function(){
 
     //create a bubble popup for each DOM element with class attribute as "text", "button" or "link" and LI, P, IMG elements.
-    $('.link').CreateBubblePopup({
+    $('.popup').CreateBubblePopup({
       position : 'top',
       align : 'center',
       innerHtml: '',
@@ -12,7 +12,7 @@
       themePath: '/static/jquery-bubble-popup/themes/'
     });
 
-    $('.link').mouseover(function() {
+    $('.popup').mouseover(function() {
       var link = $(this);
       link.SetBubblePopupInnerHtml(link.find('div.innerHtml').html());
     });
@@ -62,7 +62,7 @@
       {% if forloop.first %}
       <span class="link prefix">{{ link.when }}</span>
       {% else %}
-      <div class="link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
+      <div class="popup link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
 	{{ link.transport_short }}
 	<div style="display: none;">
 	  <div class="innerHtml">
