@@ -21,6 +21,38 @@
         });
       });
     </script>
+    <script>
+      function check_search_form() {
+        var from = document.search_form.fr.value;
+        var to = document.search_form.to.value;
+        if (from == '' && to == '') {
+          $('div.search-error-messages').html('<p class="search-error-messages">Ange var du vill resa ifrån och målet för din resa</p>');
+          return false;
+        }
+        if (from == '') {
+          $('div.search-error-messages').html('<p class="search-error-messages">Ange var vill du resa ifrån</p>');
+          return false;
+        }
+        if (to == '') {
+          $('div.search-error-messages').html('<p class="search-error-messages">Ange målet för din resa</p>');
+          return false;
+        }
+        return true;
+      }
+      
+      function submit_on_enter(my_field, event) {
+        var keycode;
+        if (window.event) keycode = window.event.keyCode;
+        else if (event) keycode = event.which;
+        else return true;
+      
+        if (keycode == 13) {
+          myfield.form.submit();
+          return false;
+        }
+        return true;
+      }
+    </script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-23396011-1']);
