@@ -1,23 +1,4 @@
 {% extends "base.html" %}
-{% block script %}
-function check_search_form() {
-  var from = document.search_form.fr.value;
-  var to = document.search_form.to.value;
-  if (from == '' && to == '') {
-    $('div.search-error-messages').replaceWith('<p class="search-error-messages">Ange var du vill resa ifrån och målet för din resa</p>');
-    return false;
-  }
-  if (from == '') {
-    $('div.search-error-messages').replaceWith('<p class="search-error-messages">Ange var vill du resa ifrån</p>');
-    return false;
-  }
-  if (to == '') {
-    $('div.search-error-messages').replaceWith('<p class="search-error-messages">Ange målet för din resa</p>');
-    return false;
-  }
-  return true;
-}
-{% endblock %}
 {% block body %}
 <body class="yui-skin-sam">
   <div id="doc" class="yui-t7">
@@ -40,8 +21,8 @@ function check_search_form() {
 	<!-- search box -->
 	<div id="start-search-box">
 	  <form name="search_form" method="GET" action="/search" onSubmit="return check_search_form()">
-	    <input id="search_fr" type="text" name="fr" placeholder="Från"/>
-	    <input id="search_to" type="text" name="to" placeholder="Till"/>
+	    <input id="search_fr" type="text" name="fr" placeholder="Från" onKeyPress="return submit_on_enter(this, event)"/>
+	    <input id="search_to" type="text" name="to" placeholder="Till" onKeyPress="return submit_on_enter(this, event)"/>
 	    <input class="search-button" type="submit" value="Sök"/>
 	  </form>
 	</div>
