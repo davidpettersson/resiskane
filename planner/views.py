@@ -134,7 +134,13 @@ def transform_journeys(js):
     return map(transform_journey, js)
         
 def start(req):
-    return render_to_response('start.html')
+    n_to = req.GET.get('to', '')
+    n_fr = req.GET.get('fr', '')
+    start_state = {
+        'fr': n_fr,
+        'to': n_to
+    }
+    return render_to_response('start.html', start_state)
 
 def search(req):
     r_to = search_station(req.GET['to'].encode('iso-8859-1'))
