@@ -34,11 +34,11 @@ MEDIA_URL = 'http://resiskane.se/media/'
 
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
-try:
+if not DEBUG:
     import secret_key
     SECRET_KEY = secret_key.SECRET_KEY
 except:
-    print 'warning: failed to load secret key (continuing anyway)'
+    SECRET_KEY = None
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
