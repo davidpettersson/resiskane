@@ -190,6 +190,16 @@ li {
     font-family: museo-normal;
 }
 
+.deviation-header {
+    color: red;
+    font-weight: bold;
+}
+
+.deviation {
+    color: red;
+    max-width: 320px;
+}
+
 .innerHtml p {
     margin: 4pt;
 }

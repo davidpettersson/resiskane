@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -17,6 +17,8 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+TEMPLATE_STRING_IF_INVALID = 'boo!'
 
 TIME_ZONE = 'Europe/Stockholm'
 

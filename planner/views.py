@@ -24,6 +24,10 @@ class LinkView:
         return self._link.getDuration().seconds / 60
     def transport_short(self):
         return self.transport(True)
+    def has_deviations(self):
+        return len(self._link.getDeviations()) > 0
+    def deviations(self):
+        return self._link.getDeviations()
     def transport(self, allow_short=False):
         name = self._link.getTransportName()
         type_ = self._link.getTransportType()
