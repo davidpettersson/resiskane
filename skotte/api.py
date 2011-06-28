@@ -6,7 +6,7 @@ from xml.dom.minidom import parseString
 from xml.etree.ElementTree import ElementTree
 from StringIO import StringIO
 from pprint import pprint
-from domain import Station, Journey, Link
+from domain import Station, Journey, Link, Deviation
 from datetime import datetime
 
 def _build_url(page, params):
@@ -64,13 +64,21 @@ def _parse_transport_type(ns, l):
 def _parse_transport_name(ns, l):
     return l.find(ns + 'Name').text
 
+def _parse_deviation(ns, d):
+    return Deviation(d.find(ns + 'Header').text,
+                     d.find(ns + 'Details').text)
+
+def _parse_deviations(ns, ds):
+    return [ _parse_deviation(ns, d) for d in ds.getchildren() ]
+
 def _parse_route_link(ns, r):
     return Link(_parse_date_time(ns, r.find(ns + 'DepDateTime')),
                 _parse_station(ns, r.find(ns + 'From')),
                 _parse_date_time(ns, r.find(ns + 'ArrDateTime')),
                 _parse_station(ns, r.find(ns + 'To')),
                 _parse_transport_type(ns, r.find(ns + 'Line')),
-                _parse_transport_name(ns, r.find(ns + 'Line')))
+                _parse_transport_name(ns, r.find(ns + 'Line')),
+                _parse_deviations(ns, r.find(ns + 'Deviations')))
 
 def _parse_journey(ns, j):
     rs = j.findall('%sRouteLinks/%sRouteLink' % (ns, ns))
@@ -89,6 +97,7 @@ def search_journey(start, stop, when):
     body = _send_req(url)
     open('/tmp/lastreq.xml', 'w').write(url)
     open('/tmp/lastrep.xml', 'w').write(body)
+    body = open('/tmp/sample.xml', 'r').read()
     tree = ElementTree()
     tree.parse(StringIO(body))
     root = tree.getroot()
@@ -102,8 +111,8 @@ if __name__ == '__main__':
     a = search_station('lund c')[0]
     print a.getName(), a.getId()
     b = search_station('malm')[0]
+    print b.getName(), b.getId()
 
-    print '###########################################'
     print '###########################################'
     js = search_journey(a, b, datetime.now())
     print 'Got %d hits' % len(js)
