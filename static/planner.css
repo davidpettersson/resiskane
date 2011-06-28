@@ -1,3 +1,5 @@
+/* ----- FONTS ------ */
+
 @font-face {
     font-family: museo-heavy;
     src: url(/static/fonts/Museo700-Regular-webfont.ttf);
@@ -12,6 +14,8 @@
     font-family: museo-light;
     src: url(/static/fonts/Museo300-Regular-webfont.ttf);
 }
+
+/* ----- ELEMENTS ------ */
 
 html {
     background-color: #ffffff;
@@ -39,6 +43,13 @@ hr {
     border: 0;
     border-bottom: solid 1pt lightgray;
 }
+
+li {
+    margin-left: 1.5em;
+    list-style: circle outside;
+}
+
+/* ----- CLASSES AND IDENTIFIERS ------ */
 
 .beta {
     vertical-align: super;
@@ -68,7 +79,7 @@ hr {
     border-bottom: dotted 1pt gray;
 }
 
-.tagline {
+.tagline-large {
     font-family: museo-normal;
     font-size: 16pt;
     text-align: center;
@@ -77,24 +88,19 @@ hr {
     margin-bottom: 1em;
 }
 
-p.search-error-messages {
+.tagline-small {
     font-family: museo-normal;
-    font-size: 11pt;
+    font-size: 12pt;
     text-align: center;
-    margin-top: 1em;
-    background-color: #FF6;
-    padding: 0;
-    width: 30em;
-    margin-left: auto;
-    margin-right: auto;
-    -moz-border-radius-topleft: 5pt;
-    -webkit-border-top-left-radius: 5pt;
-    -moz-border-radius-topright: 5pt;
-    -webkit-border-top-right-radius: 5pt;
-    -moz-border-radius-bottomleft: 5pt;
-    -webkit-border-bottom-left-radius: 5pt;
-    -moz-border-radius-bottomright: 5pt;
-    -webkit-border-bottom-right-radius: 5pt;
+    color: #404040;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.search-error-messages {
+    font-family: museo-normal;
+    font-size: 12pt;
+    background-color: pink;
 }
 
 #logo-large-center {
@@ -104,9 +110,20 @@ p.search-error-messages {
     text-shadow: black 1pt 1pt 3pt;
 }
 
+#logo-small-center {
+    margin-top: 24pt;
+    font-size: 64pt;
+    text-align: center;
+    text-shadow: black 1pt 1pt 3pt;
+}
+
 #logo-small-left {
-    font-size: 48pt;
+    font-size: 36pt;
     text-shadow: gray 1pt 1pt 2pt;
+}
+
+#logo-box {
+    display: block;
 }
 
 #start-search-box {
@@ -120,32 +137,35 @@ p.search-error-messages {
     vertical-align: middle;
 }
 
+#hd {
+    border-bottom: solid 1px lightgray;
+    padding-left: 190px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+
 #result-search-box {
     font-family: museo-normal;
-    background-color: lightgray;
-    padding: 3pt;
-    border: solid 1pt gray;
-    border-radius: 2pt;
-    margin-bottom: 1em;
-}
-    
-#result-search-box p {
-    margin-bottom: 6pt;
-    font-family: inherit;
+    font-size: 16pt;
+    padding-bottom: 1em;
+    padding-top: 3pt;
 }
 
 #result-search-box input {
     font-family: inherit;
-    width: 90%;
+    vertical-align: middle;
 }
 
-p.did-you-mean {
-    font-size: 8pt;
-    font-style: italic;
+.did-you-mean {
+    margin: 3pt;
+    font-size: 10pt;
     font-family: museo-light;
 }
-    
-/* ------------- */
+
+.did-you-mean p {
+    margin-bottom: 4pt;
+}
 
 .prefix-journeys {
     margin-bottom: 1em;

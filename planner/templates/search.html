@@ -20,144 +20,123 @@
   });
 {% endblock %}
 {% block body %}
-<body class="yui-skin-sam">
+<div id="doc3" class="yui-t2">
+  <div id="hd">
 
-
-  <div id="doc2" class="yui-t4">
-    <div id="hd">
-
-      <!-- logo -->
+    <!-- logo -->
+    <div id="logo-box">
       <h1 class="logo" id="logo-small-left">
-	<a href="/" style="text-decoration: none;"><span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span></a><span class="beta">beta</span>
+	<span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span><span class="beta">beta</span>
       </h1>
-      
     </div>
-    <div id="bd">
-      <div id="yui-main">
-	<div class="yui-b">
-	  <div class="yui-g">
-	    <!-- YOUR DATA GOES HERE -->
 
-  <div class="prefix-journeys">
-    <h2>Funna resor</h2>
-
-    <p>Kom ihåg att denna tjänst är under utveckling. Använd
-    sökresultaten på egen risk. Tänk på att förseningar och inställda
-    färdmedel/sträckor inte syns här ännu. Vill du vara 100% säker,
-    använd <a href="http://www.skanetrafiken.se">Skånetrafikens
-    officiella tjänst</a>.</p>
-
-    <p>Observera att resegarantin ej täcker att du missat något resa
-    pga felaktig information från denna webbplats.</p>
-
-  </div>
-  
-  <div class="search-error-messages"></div>
-
-  <div class="journeys">
-    {% for journey in journeys %}
-    <div class="journey">
-      <h3>Alternativ {{ forloop.counter }} – {{ journey.0.remains }}</h3>
-      {% for link in journey %}
-      {% if forloop.first %}
-      <span class="link prefix">{{ link.when }}</span>
-      {% else %}
-      <div class="popup link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px; position: relative;">
-	<!--
-	<span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 0 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; top: -10pt; left: 0pt; white-space: nowrap;">&darr; {{ link.departure_name }}, {{ link.departure_time }}</span>
-	-->
-	{{ link.transport_short }}
-	<div style="display: none;">
-	  <div class="innerHtml">
-	    <p>Avgår {{ link.departure_time }} från {{ link.departure_name }},<br/>
-	      ankomst kl {{ link.arrival_time }} till {{ link.arrival_name }}.</p>
-	    <p>Färdmedel {{ link.transport|lower }}, restid {{ link.duration }} minuter.</p>
-	  </div>
-	</div>
-	<!--
-	<span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 100% 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; bottom: -10pt; right: 0pt; white-space: nowrap;">{{ link.arrival_name }}, {{ link.arrival_time }} &uarr;</span>
-	-->
-      </div>
-      {% endif %}
-      {% endfor %}
+    <!-- result search box -->
+    <div id="result-search-box">
+      <form name="search_form" method="get" action="/search" onSubmit="return check_search_form()">
+	<input id="search_fr" size="25" type="text" name="fr" placeholder="Från" value="{{fr}}" onKeyPress="return submit_on_enter(this, event)"/>
+	<input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to}}" onKeyPress="return submit_on_enter(this, event)"/>
+	<input class="search-button" type="submit" value="Sök"/>
+      </form>
     </div>
-    {% endfor %}
-  </div>
-
-	  </div>
-	</div>
-      </div>
-      <div class="yui-b">
-
-	<!-- search boxes -->
-<div id="result-search-box">
-  <form name="search_form" method="get" action="/search" onSubmit="return check_search_form()">
-
-    <p>
-      Från:<br/>
-      <input id="search_fr" type="text" name="fr" placeholder="Från" value="{{fr}}" onKeyPress="return submit_on_enter(this, event)"/>
-    </p>
-
-    <p class="did-you-mean">
-      Eller menade du:
-      {% for fr_alt in fr_alts %}
-      <a href="/search?fr={{ fr_alt }}&amp;to={{ to }}">{{ fr_alt }}</a>{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    </p>
-
-    <p>
-      Till:<br/>
-      <input id="search_to" type="text" name="to" placeholder="Till" value="{{to}}" onKeyPress="return submit_on_enter(this, event)"/>
-    </p>
-
-    <p class="did-you-mean">
-      Eller menade du:
-      {% for to_alt in to_alts %}
-      <a href="/search?fr={{ fr }}&amp;to={{ to_alt }}">{{ to_alt }}</a>{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    </p>
     
-    <p>
-      <input class="search-button" type="submit" value="Sök"/>
-    </p>
+    <!-- search error message -->
+    <div class="search-error-messages"></div>
+	  
+  </div>
 
-  </form>
-</div>
+  <div id="bd">
+    <div id="yui-main">
+      <div class="yui-b">
+	<div class="yui-g">
 
-<div style="margin-top: 1em;">
-<iframe src="http://www.facebook.com/plugins/like.php?app_id=215717241792160&amp;href=http%3A%2F%2Fwww.resiskane.se&amp;send=false&amp;layout=button_count&amp;width=160&amp;show_faces=true&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:160px; height:21px;" allowTransparency="true"></iframe></div>
-
-<!--
-<div style="margin-top: 1em;">
-<iframe src="http://www.facebook.com/plugins/like.php?app_id=114754585278480&amp;href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FRes-i-Sk%25C3%25A5ne%2F191202220926859&amp;send=false&amp;layout=button_count&amp;width=180&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:21px;" allowTransparency="true"></iframe></div>
--->
-
-<div style="margin-top: 1em;">
-<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.resiskane.se" data-text="Kolla in nya reseplaneraren Res i Skåne!" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
-
-<hr/>
-
-<div style="margin-top: 1em; font-family: museo-light">
-<p>Denna sajt (och många andra) fungerar bäst om du har en modern webbläsare såsom <a href="http://www.mozilla.com/sv-SE/firefox/">Firefox</a> eller <a href="http://www.google.com/chrome">Chrome</a>. Ladda hem en av dem nu!</p>
-<!-- <a href='http://www.mozilla.org/firefox?WT.mc_id=aff_en01&WT.mc_ev=click'><img src='http://www.mozilla.org/contribute/buttons/110x32arrow_b.png' alt='Firefox Download Button' border='0' /></a> -->
-</div>
-
-<hr/>
-
-<div style="margin-top: 1em; font-family: museo-light;"><p>Förslag på hur vi kan bli bättre? Hittat ett fel?</p><p><a href="https://bitbucket.org/davidpettersson/resiskane/issues">Rapportera</a> det så kikar vi på det bums! Alla tips, frågor och idéer mottages tacksamt! :-)</p></div>
+	  <!-- journey hits -->
+	  
+	  <div class="prefix-journeys">
+	    <h2>Funna resor</h2>
+	    
+	    <p>Kom ihåg att denna tjänst är under utveckling. Använd
+	      sökresultaten på egen risk. Tänk på att förseningar och
+	      inställda färdmedel/sträckor inte syns här ännu. Vill du
+	      vara 100% säker,
+	      använd <a href="http://www.skanetrafiken.se">Skånetrafikens
+		officiella tjänst</a>.</p>
+	    
+	    <p>Observera att resegarantin ej täcker att du missat något
+	      resa pga felaktig information från denna webbplats.</p>
+	    
+	  </div>
+	  
+	  <div class="journeys">
+	    {% for journey in journeys %}
+	    <div class="journey">
+	      <h3>Alternativ {{ forloop.counter }} – {{ journey.0.remains }}</h3>
+	      {% for link in journey %}
+	      {% if forloop.first %}
+	      <span class="link prefix">{{ link.when }}</span>
+	      {% else %}
+	      <div class="popup link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px; position: relative;">
+		<!--
+		   <span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 0 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; top: -10pt; left: 0pt; white-space: nowrap;">&darr; {{ link.departure_name }}, {{ link.departure_time }}</span>
+		   -->
+		{{ link.transport_short }}
+		<div style="display: none;">
+		  <div class="innerHtml">
+		    <p>Avgår {{ link.departure_time }} från {{ link.departure_name }},<br/>
+		      ankomst kl {{ link.arrival_time }} till {{ link.arrival_name }}.</p>
+		    <p>Färdmedel {{ link.transport|lower }}, restid {{ link.duration }} minuter.</p>
+		  </div>
+		</div>
+		<!--
+		   <span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 100% 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; bottom: -10pt; right: 0pt; white-space: nowrap;">{{ link.arrival_name }}, {{ link.arrival_time }} &uarr;</span>
+		   -->
+	      </div>
+	      {% endif %}
+	      {% endfor %}
+	    </div>
+	    {% endfor %}
+	  </div> <!-- this ends journeys -->
+	  
+	</div>
       </div>
     </div>
-    <div id="ft">
-      <div class="footer">
 
-	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
+    <div class="yui-b" style="border-right: solid 1px lightgray;">
 
-	<p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.<br/>
-Använder du Android? Prova då <a href="https://market.android.com/details?id=info.lokaltrafik.skaone">Lokaltrafik Skåne</a>.</p>
+      <h2>Ville du..?</h2>
 
-	<p style="color: #aa7777;">Denna webbplats drivs ej av Skånetrafiken.</p>
+      <!-- did you mean? -->
+      <div class="did-you-mean">
+	<p>
+	  Ville du åka från:
+	  <ul>
+	    {% for fr_alt in fr_alts %}
+	    <li><a href="/search?fr={{ fr_alt }}&amp;to={{ to }}">{{ fr_alt }}</a></li>
+	    {% endfor %}
+	  </ul>
+	</p>
+
+	<p>
+	  Eller kanske åka till:
+	  <ul>
+	    {% for to_alt in to_alts %}
+	    <li><a href="/search?fr={{ fr }}&amp;to={{ to_alt }}">{{ to_alt }}</a></li>
+	    {% endfor %}
+	  </ul>
+	</p>
 
       </div>
+
+    </div>
+
+  </div>
+  <div id="ft">
+    <div class="footer">
+      <p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
+      
+      <p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.<br/>
+	Använder du Android? Prova då <a href="https://market.android.com/details?id=info.lokaltrafik.skaone">Lokaltrafik Skåne</a>.</p>
+      
+      <p style="color: #aa7777;">Denna webbplats drivs ej av Skånetrafiken.</p>
     </div>
   </div>
 </body>
