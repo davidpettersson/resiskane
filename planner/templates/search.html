@@ -64,7 +64,10 @@
       {% if forloop.first %}
       <span class="link prefix">{{ link.when }}</span>
       {% else %}
-      <div class="popup link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px;">
+      <div class="popup link box-base box-color-{{ link.color }}" style="width: {{ link.pixel_length}}px; position: relative;">
+	<!--
+	<span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 0 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; top: -10pt; left: 0pt; white-space: nowrap;">&darr; {{ link.departure_name }}, {{ link.departure_time }}</span>
+	-->
 	{{ link.transport_short }}
 	<div style="display: none;">
 	  <div class="innerHtml">
@@ -73,6 +76,9 @@
 	    <p>Färdmedel {{ link.transport|lower }}, restid {{ link.duration }} minuter.</p>
 	  </div>
 	</div>
+	<!--
+	<span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 100% 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; bottom: -10pt; right: 0pt; white-space: nowrap;">{{ link.arrival_name }}, {{ link.arrival_time }} &uarr;</span>
+	-->
       </div>
       {% endif %}
       {% endfor %}
