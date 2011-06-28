@@ -37,7 +37,7 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 if not DEBUG:
     import secret_key
     SECRET_KEY = secret_key.SECRET_KEY
-except:
+else:
     SECRET_KEY = None
 
 TEMPLATE_LOADERS = (
@@ -68,4 +68,5 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'resiskane.planner',
+    'resiskane.skotte',
 )
