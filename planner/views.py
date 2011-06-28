@@ -11,7 +11,7 @@ class LinkView:
     def arrival_name(self):
         return self._link.getArrivalStation().getName()
     def pixel_length(self):
-        return min(120, self._link.getDuration().seconds / 60) * 3 + 20
+        return min(120, self._link.getDuration().seconds / 60) * 5 + 20
     def departure_time(self):
         return self._link.getDepartureTime().strftime("%H:%M")
     def arrival_time(self):
