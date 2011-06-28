@@ -248,3 +248,11 @@ li {
 .journey .link {
     display: inline-block;
 }
+
+/* ---- UI-AUTOCOMPLETE ----- */
+
+.ui-autocomplete li {
+    list-style: none;
+    text-align: left;
+    font-family: museo-normal;
+}
