@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render_to_response
-from api import search_station, search_journey
+from resiskane.skotte.api import search_station, search_journey
 from datetime import datetime, timedelta
 
 class LinkView:
