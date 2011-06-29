@@ -147,8 +147,11 @@ def start(req):
     return render_to_response('start.html', start_state)
 
 def search(req):
-    r_to = search_station(req.GET['to'].encode('iso-8859-1'))
-    r_fr = search_station(req.GET['fr'].encode('iso-8859-1'))
+    req_to = req.GET['to']
+    req_fr = req.GET['fr']
+
+    r_to = search_station(req_to)
+    r_fr = search_station(req_fr)
 
     journeys = search_journey(r_fr[0], r_to[0], datetime.now())
     journeys = transform_journeys(journeys)
@@ -169,5 +172,6 @@ def robots(req):
     return render_to_response('robots.txt')
 
 def ajax_stations(req):
-    stations = search_station(req.GET['term'].encode('iso-8859-1'))
+    req_term = req.GET['term']
+    stations = search_station(req_term)
     return render_to_response('ajax_stations.json', { 'stations': stations })

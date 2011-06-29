@@ -8,6 +8,7 @@ from StringIO import StringIO
 from pprint import pprint
 from domain import Station, Journey, Link, Deviation
 from datetime import datetime
+from cache import get_station_cache, set_station_cache
 
 def _build_url(page, params):
     return 'http://www.labs.skanetrafiken.se/v2.2/%s?%s' % (page, urlencode(params))
@@ -23,7 +24,13 @@ def _as_text(ns):
     return ''.join(rc)
 
 def search_station(s):
-    url = _build_url('querystation.asp', { 'inpPointFr': s })
+    encoded_s = s.encode('utf-8')
+    stations = get_station_cache(encoded_s)
+
+    if stations:
+        return stations
+
+    url = _build_url('querystation.asp', { 'inpPointFr': encoded_s })
     body = _send_req(url)
     doc = parseString(body)
     Point_nodes = doc.getElementsByTagName('Point')
@@ -34,6 +41,7 @@ def search_station(s):
         st = Station(id_, name)
         if not st in stations:
             stations.append(st)
+    set_station_cache(encoded_s, stations)
     return stations
 
 NS_ETISWS = '{http://www.etis.fskab.se/v1.0/ETISws}'
