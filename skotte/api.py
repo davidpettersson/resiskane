@@ -97,7 +97,6 @@ def search_journey(start, stop, when):
     body = _send_req(url)
     open('/tmp/lastreq.xml', 'w').write(url)
     open('/tmp/lastrep.xml', 'w').write(body)
-    body = open('/tmp/sample.xml', 'r').read()
     tree = ElementTree()
     tree.parse(StringIO(body))
     root = tree.getroot()
