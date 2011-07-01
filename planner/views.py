@@ -38,7 +38,7 @@ class LinkView:
             else:
                 short = 'Pågatåg'
         elif type_ in 'Öresundståg':
-            if allow_short and self.pixel_length() < 70:
+            if allow_short and self.pixel_length() < 75:
                 short = 'Ö-tåg'
             else:
                 short = 'Öresundståg'
