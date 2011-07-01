@@ -38,7 +38,7 @@ class LinkView:
             else:
                 short = 'Pågatåg'
         elif type_ in 'Öresundståg':
-            if allow_short and self.pixel_length() < 70:
+            if allow_short and self.pixel_length() < 75:
                 short = 'Ö-tåg'
             else:
                 short = 'Öresundståg'
@@ -159,8 +159,8 @@ def search(req):
     info = { 
         'fr': r_fr[0].getName(),
         'to': r_to[0].getName(),
-        'fr_alts': map(lambda x: x.getName(), r_fr[1:4]),
-        'to_alts': map(lambda x: x.getName(), r_to[1:4]),
+        'fr_alts': map(lambda x: x.getName(), r_fr[1:6]),
+        'to_alts': map(lambda x: x.getName(), r_to[1:6]),
         'journeys': journeys,
         }
     return render_to_response('search.html', info)
