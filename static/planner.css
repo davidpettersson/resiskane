@@ -137,7 +137,7 @@ li {
     vertical-align: middle;
 }
 
-#hd-result {
+.hd-result {
     border-bottom: solid 1px lightgray;
     padding-left: 190px;
     margin-bottom: 1em;
