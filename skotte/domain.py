@@ -1,14 +1,3 @@
-class Station(object):
-    def __init__(self, identifier, name):
-        self._identifier = identifier
-        self._name = name
-    def getId(self):
-        return self._identifier
-    def getName(self):
-        return self._name
-    def __unicode__(self):
-        return self._name
-
 class Journey(object):
     def __init__(self):
         self._links = [ ]
@@ -31,11 +20,11 @@ class Deviation(object):
         return self._details
 
 class Link(object):
-    def __init__(self, departure_time, departure_pt, arrival_time, arrival_pt, transport_type, transport_name, deviations):
+    def __init__(self, departure_time, departure_st, arrival_time, arrival_st, transport_type, transport_name, deviations):
         self._d_t = departure_time
-        self._d_p = departure_pt
+        self._d_s = departure_st
         self._a_t = arrival_time
-        self._a_p = arrival_pt
+        self._a_s = arrival_st
         self._transport_type = transport_type
         self._transport_name = transport_name
         self._deviations = deviations
@@ -44,9 +33,9 @@ class Link(object):
     def getDepartureTime(self):
         return self._d_t
     def getArrivalStation(self):
-        return self._a_p
+        return self._a_s
     def getDepartureStation(self):
-        return self._d_p
+        return self._d_s
     def getTransportName(self):
         return self._transport_name
     def getTransportType(self):

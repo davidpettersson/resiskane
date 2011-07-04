@@ -9,8 +9,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.',
-        'NAME': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'resiskane.db',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -18,7 +18,7 @@ DATABASES = {
     }
 }
 
-TEMPLATE_STRING_IF_INVALID = 'boo!'
+TEMPLATE_STRING_IF_INVALID = '[missing]'
 
 TIME_ZONE = 'Europe/Stockholm'
 
@@ -71,4 +71,5 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'resiskane.planner',
     'resiskane.skotte',
+    'south'
 )

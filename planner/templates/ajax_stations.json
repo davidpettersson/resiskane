@@ -1,9 +1,9 @@
 [
 {% for s in stations %}
   {
-    "id": "{{ s.getId }}",
-    "label": "{{ s.getName }}",
-    "value": "{{ s.getName }}"
+    "id": "{{ s.identifier }}",
+    "label": "{{ s.name }}",
+    "value": "{{ s.name }}"
   }{% if not forloop.last %},{% endif %}
 {% endfor %}
 ]
