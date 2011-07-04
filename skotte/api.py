@@ -8,6 +8,7 @@ from pprint import pprint
 from domain import Journey, Link, Deviation
 from models import Station
 from datetime import datetime
+from metaphone import dm
 
 NS = '{http://www.etis.fskab.se/v1.0/ETISws}'
 
@@ -42,6 +43,7 @@ def _refresh_by_search_key(s):
             station.name = point.find(NS + 'Name').text
             station.x = int(point.find(NS + 'X').text)
             station.y = int(point.find(NS + 'Y').text)
+            station.metaphone = dm(point.find(NS + 'Name').text)[0]
             station.save()
             print 'Saved', station.identifier
         except Station.MultipleObjectsReturned:
@@ -54,13 +56,11 @@ def search_station(qs):
     hits = [ ]
     try:
         hits.append(Station.objects.get(name__iexact=qs))
-        hits.extend(Station.objects.filter(name__icontains=qs))
     except Station.DoesNotExist:
         pass
 
-    if not hits:
-        return Station.objects.filter(name__istartswith=qs)
-    
+    mp = dm(qs)[0]
+    hits.extend(Station.objects.filter(metaphone__istartswith=mp))
     return hits
 
 def _parse_date_time(ns, d):
