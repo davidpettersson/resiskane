@@ -33,9 +33,9 @@
 
     <!-- result search box -->
     <div id="result-search-box">
-      <form name="search_form" method="get" action="/search" onSubmit="return check_search_form()">
-	<input id="search_fr" size="25" type="text" name="fr" placeholder="Från" value="{{fr}}" onKeyPress="return submit_on_enter(this, event)"/>
-	<input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to}}" onKeyPress="return submit_on_enter(this, event)"/>
+      <form name="search_form" method="get" action="/resolve" onSubmit="return check_search_form()">
+	<input id="search_fr" size="25" type="text" name="fr" placeholder="Från" value="{{fr.name}}" onKeyPress="return submit_on_enter(this, event)"/>
+	<input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to.name}}" onKeyPress="return submit_on_enter(this, event)"/>
 	<input class="search-button" type="submit" value="Sök"/>
       </form>
     </div>
@@ -105,7 +105,7 @@
 	  Ville du åka från:
 	  <ul>
 	    {% for fr_alt in fr_alts %}
-	    <li><a href="/search?fr={{ fr_alt }}&amp;to={{ to }}">{{ fr_alt }}</a></li>
+	    <li><a href="/search?fr_id={{ fr_alt.identifier }}&amp;to_id={{ to.identifier }}">{{ fr_alt.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	</p>
@@ -114,7 +114,7 @@
 	  Eller kanske åka till:
 	  <ul>
 	    {% for to_alt in to_alts %}
-	    <li><a href="/search?fr={{ fr }}&amp;to={{ to_alt }}">{{ to_alt }}</a></li>
+	    <li><a href="/search?fr_id={{ fr.identifier }}&amp;to_id={{ to_alt.identifier }}">{{ to_alt.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	</p>

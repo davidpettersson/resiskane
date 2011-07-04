@@ -2,13 +2,14 @@
 
 from urllib2 import urlopen
 from urllib import urlencode
-from xml.dom.minidom import parseString
 from xml.etree.ElementTree import ElementTree
 from StringIO import StringIO
 from pprint import pprint
-from domain import Station, Journey, Link, Deviation
+from domain import Journey, Link, Deviation
+from models import Station
 from datetime import datetime
-from cache import get_station_cache, set_station_cache
+
+NS = '{http://www.etis.fskab.se/v1.0/ETISws}'
 
 def _build_url(page, params):
     return 'http://www.labs.skanetrafiken.se/v2.2/%s?%s' % (page, urlencode(params))
@@ -23,28 +24,44 @@ def _as_text(ns):
             rc.append(n.data)
     return ''.join(rc)
 
-def search_station(s):
+def _refresh_by_search_key(s):
     encoded_s = s.encode('utf-8')
-    stations = get_station_cache(encoded_s)
-
-    if stations:
-        return stations
-
     url = _build_url('querystation.asp', { 'inpPointFr': encoded_s })
     body = _send_req(url)
-    doc = parseString(body)
-    Point_nodes = doc.getElementsByTagName('Point')
-    stations = list()
-    for element in Point_nodes:
-        id_ = int(_as_text(element.getElementsByTagName('Id')[0].childNodes))
-        name = _as_text(element.getElementsByTagName('Name')[0].childNodes)
-        st = Station(id_, name)
-        if not st in stations:
-            stations.append(st)
-    set_station_cache(encoded_s, stations)
-    return stations
+    tree = ElementTree()
+    tree.parse(StringIO(body))
+    root = tree.getroot()
+    points = root.getiterator(NS + 'Point')
+    for point in points:
+        station = Station()
+        station.identifier = int(point.find(NS + 'Id').text)
 
-NS_ETISWS = '{http://www.etis.fskab.se/v1.0/ETISws}'
+        try:
+            Station.objects.get(identifier=station.identifier)
+        except Station.DoesNotExist:
+            station.name = point.find(NS + 'Name').text
+            station.x = int(point.find(NS + 'X').text)
+            station.y = int(point.find(NS + 'Y').text)
+            station.save()
+            print 'Saved', station.identifier
+        except Station.MultipleObjectsReturned:
+            print 'Cannot happen, multiple instances of', station.identifier
+        else:
+            print 'Already have', station.identifier
+
+def search_station(qs):
+    _refresh_by_search_key(qs)
+    hits = [ ]
+    try:
+        hits.append(Station.objects.get(name__iexact=qs))
+        hits.extend(Station.objects.filter(name__icontains=qs))
+    except Station.DoesNotExist:
+        pass
+
+    if not hits:
+        return Station.objects.filter(name__istartswith=qs)
+    
+    return hits
 
 def _parse_date_time(ns, d):
     return datetime.strptime(d.text, '%Y-%m-%dT%H:%M:%S')
@@ -96,11 +113,14 @@ def _parse_journey(ns, j):
         journey.addLink(link)
     return journey
 
-def search_journey(start, stop, when):
+def search_journey(fr_id, to_id, when):
+    start = Station.objects.get(identifier=fr_id)
+    stop = Station.objects.get(identifier=to_id)
+
     url = _build_url('resultspage.asp', { 'LastStart': when.strftime('%y-%m-%d %H:%M'),
                                           'cmdaction': 'next',
-                                          'selPointFr': '%s|%d|0' % (start.getName().encode('utf-8'), start.getId()),
-                                          'selPointTo': '%s|%d|0' % (stop.getName().encode('utf-8'), stop.getId()),
+                                          'selPointFr': '%s|%d|0' % (start.name.encode('utf-8'), start.identifier),
+                                          'selPointTo': '%s|%d|0' % (stop.name.encode('utf-8'), stop.identifier),
                                           })
     body = _send_req(url)
     open('/tmp/lastreq.xml', 'w').write(url)
@@ -108,17 +128,17 @@ def search_journey(start, stop, when):
     tree = ElementTree()
     tree.parse(StringIO(body))
     root = tree.getroot()
-    js = root.getiterator(NS_ETISWS + 'Journey')
+    js = root.getiterator(NS + 'Journey')
     journeys = [ ]
     for j in js:
-        journeys.append(_parse_journey(NS_ETISWS, j))
+        journeys.append(_parse_journey(NS, j))
     return journeys
 
 if __name__ == '__main__':
     a = search_station('lund c')[0]
-    print a.getName(), a.getId()
+    print a.name, a.identifier
     b = search_station('malm')[0]
-    print b.getName(), b.getId()
+    print b.name, b.identifier
 
     print '###########################################'
     js = search_journey(a, b, datetime.now())
@@ -127,5 +147,5 @@ if __name__ == '__main__':
         print 'Journey', j
         ls = j.getLinks()
         for l in ls:
-            print l.getDepartureStation().getName(), l.getDepartureTime()
+            print l.getDepartureStation().name, l.getDepartureTime()
 

@@ -1,5 +1,0 @@
-This is the working directory for the Redis server that
-needs to be running for Skotte to cache properly. Start
-the server by running "redis-server ./redis.conf" from
-this directory (or it might pick up some other config
-file).

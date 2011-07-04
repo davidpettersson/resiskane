@@ -1,11 +1,12 @@
 from django.conf.urls.defaults import *
 
-from views import start, search, css, robots, ajax_stations
+from views import start, resolve, search, css, robots, ajax_stations
 import settings
 
 urlpatterns = patterns('',
     # Example:
     (r'^$', start),
+    (r'^resolve', resolve),
     (r'^search', search),
     (r'^css', css),
     (r'^robots.txt$', robots),

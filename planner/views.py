@@ -1,15 +1,16 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from resiskane.skotte.api import search_station, search_journey
 from datetime import datetime, timedelta
+from skotte.models import Station
 
 class LinkView:
     def __init__(self, link):
         self._link = link
     def departure_name(self):
-        return self._link.getDepartureStation().getName()
+        return self._link.getDepartureStation().name
     def arrival_name(self):
-        return self._link.getArrivalStation().getName()
+        return self._link.getArrivalStation().name
     def pixel_length(self):
         return min(120, self._link.getDuration().seconds / 60) * 5 + 20
     def departure_time(self):
@@ -146,21 +147,35 @@ def start(req):
     }
     return render_to_response('start.html', start_state)
 
-def search(req):
+def resolve(req):
     req_to = req.GET['to']
     req_fr = req.GET['fr']
 
     r_to = search_station(req_to)
     r_fr = search_station(req_fr)
 
-    journeys = search_journey(r_fr[0], r_to[0], datetime.now())
+    search_url = '/search?fr_id=%d&to_id=%d' % (r_fr[0].identifier, r_to[0].identifier)
+    return redirect(search_url)
+
+def search(req):
+
+    fr_id = int(req.GET['fr_id'])
+    to_id = int(req.GET['to_id'])
+                 
+    journeys = search_journey(fr_id, to_id, datetime.now())
     journeys = transform_journeys(journeys)
 
-    info = { 
-        'fr': r_fr[0].getName(),
-        'to': r_to[0].getName(),
-        'fr_alts': map(lambda x: x.getName(), r_fr[1:6]),
-        'to_alts': map(lambda x: x.getName(), r_to[1:6]),
+    fr = Station.objects.get(identifier=fr_id)
+    to = Station.objects.get(identifier=to_id)
+
+    fr_alts = search_station(fr.name)
+    to_alts = search_station(to.name)
+
+    info = {
+        'fr': fr,
+        'to': to,
+        'fr_alts': fr_alts,
+        'to_alts': to_alts,
         'journeys': journeys,
         }
     return render_to_response('search.html', info)
