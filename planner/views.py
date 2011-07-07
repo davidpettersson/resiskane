@@ -3,8 +3,49 @@ from django.shortcuts import render_to_response, redirect
 from resiskane.skotte.api import search_station, search_journey
 from datetime import datetime, timedelta
 from skotte.models import Station
+from fromeach import fromeach
 
-class LinkView:
+class Segment(object):
+    def is_wait(self):
+        return False
+
+class TweenView(Segment):
+    def __init__(self, prev, next):
+        self._prev = prev
+        self._next = next
+        print 'GOT', self._prev, self._next
+    def departure_name(self):
+        return self._prev.getArrivalStation().name
+    def arrival_name(self):
+        return self._next.getDepartureStation().name
+    def pixel_length(self):
+        duration = self._next.getDepartureTime() - self._prev.getArrivalTime()
+        return min(120, duration.seconds / 60) * 3 + 20
+    def duration(self):
+        duration = self._next.getDepartureTime() - self._prev.getArrivalTime()
+        return duration.seconds / 60
+    def departure_time(self):
+        return self._prev.getArrivalTime().strftime("%H:%M")
+    def arrival_time(self):
+        return self._next.getDepartureTime().strftime("%H:%M")
+    def transport_name(self):
+        return 'vänta'
+    def transport_short(self):
+        return '&#x25f7;'
+    def has_deviations(self):
+        return False
+    def deviations(self):
+        return [ ]
+    def transport(self, allow_short=False):
+        return None
+    def type_abbrev(self):
+        return None
+    def color(self):
+        return 'white'
+    def is_wait(self):
+        return True
+
+class LinkView(Segment):
     def __init__(self, link):
         self._link = link
     def departure_name(self):
@@ -12,7 +53,7 @@ class LinkView:
     def arrival_name(self):
         return self._link.getArrivalStation().name
     def pixel_length(self):
-        return min(120, self._link.getDuration().seconds / 60) * 5 + 20
+        return min(120, self._link.getDuration().seconds / 60) * 3 + 20
     def departure_time(self):
         return self._link.getDepartureTime().strftime("%H:%M")
     def arrival_time(self):
@@ -126,25 +167,50 @@ def transform_journey(j):
         time_left = 'inom tre timmar'
     else:
         time_left = 'om %d timmar' % (remainder / 60)
-    
+
+    views = map(lambda l: LinkView(l), links)
+
+    tweens = [ ]
+
+    for k in range(len(links) - 1):
+        prev, next = links[k], links[k+1]
+        tweens.append(TweenView(prev, next))
+
+    views = list(fromeach(views, tweens))
+    print views
+
     prefix = {
         'when': day_ref,
         'remains': time_left,
         }
-    views = map(lambda l: LinkView(l), links)
     views.insert(0, prefix)
     return views
 
 def transform_journeys(js):
     return map(transform_journey, js)
-        
+
+def start_anonymous(req):
+    return render_to_response('start.html')
+
 def start(req):
-    n_to = req.GET.get('to', '')
-    n_fr = req.GET.get('fr', '')
+    fr_id = req.GET.get('fr_id', None)
+    to_id = req.GET.get('to_id', None)
+
+    if fr_id:
+        fr = Station.objects.get(identifier=fr_id)
+    else:
+        fr = None
+
+    if to_id:
+        to = Station.objects.get(identifier=to_id)
+    else:
+        to = None
+
     start_state = {
-        'fr': n_fr,
-        'to': n_to
+        'fr': fr,
+        'to': to,
     }
+
     return render_to_response('start.html', start_state)
 
 def resolve(req):

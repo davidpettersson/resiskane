@@ -21,8 +21,8 @@
 	<!-- search box -->
 	<div id="start-search-box">
 	  <form name="search_form" method="GET" action="/resolve" onSubmit="return check_search_form()">
-	    <input id="search_fr" type="text" name="fr" value="{{ fr }}" placeholder="Från" onKeyPress="return submit_on_enter(this, event)"/>
-	    <input id="search_to" type="text" name="to" value="{{ to }}" placeholder="Till" onKeyPress="return submit_on_enter(this, event)"/>
+	    <input id="search_fr" type="text" name="fr" value="{{ fr.name }}" placeholder="Från" onKeyPress="return submit_on_enter(this, event)"/>
+	    <input id="search_to" type="text" name="to" value="{{ to.name }}" placeholder="Till" onKeyPress="return submit_on_enter(this, event)"/>
 	    <input class="search-button" type="submit" value="Sök"/>
 	  </form>
 	</div>
