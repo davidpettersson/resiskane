@@ -18,8 +18,6 @@ DATABASES = {
     }
 }
 
-TEMPLATE_STRING_IF_INVALID = '[missing]'
-
 TIME_ZONE = 'Europe/Stockholm'
 
 LANGUAGE_CODE = 'sv-se'
