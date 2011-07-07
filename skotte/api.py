@@ -67,8 +67,9 @@ def _parse_date_time(ns, d):
     return datetime.strptime(d.text, '%Y-%m-%dT%H:%M:%S')
 
 def _parse_station(ns, p):
-    return Station(int(p.find(ns + 'Id').text),
-                   p.find(ns + 'Name').text)
+    # TODO: This is really ugly
+    _refresh_by_search_key(p.find(ns + 'Name').text)
+    return Station.objects.get(identifier=int(p.find(ns + 'Id').text))
 
 TRANSPORT_MAP = {
     0: 'gång',

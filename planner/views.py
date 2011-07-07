@@ -13,7 +13,6 @@ class TweenView(Segment):
     def __init__(self, prev, next):
         self._prev = prev
         self._next = next
-        print 'GOT', self._prev, self._next
     def departure_name(self):
         return self._prev.getArrivalStation().name
     def arrival_name(self):
@@ -177,7 +176,6 @@ def transform_journey(j):
         tweens.append(TweenView(prev, next))
 
     views = list(fromeach(views, tweens))
-    print views
 
     prefix = {
         'when': day_ref,
