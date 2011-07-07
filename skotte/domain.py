@@ -45,4 +45,4 @@ class Link(object):
     def getDeviations(self):
         return self._deviations
     def __repr__(self):
-        return u'%s -> %s' % (self._d_p, self._a_p)
+        return u'%s -> %s' % (self._d_s, self._a_s)
