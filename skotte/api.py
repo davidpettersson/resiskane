@@ -60,7 +60,7 @@ def search_station(qs):
         pass
 
     mp = dm(qs)[0]
-    hits.extend(Station.objects.filter(metaphone__istartswith=mp))
+    hits.extend(Station.objects.filter(metaphone__icontains=mp))
     return hits
 
 def _parse_date_time(ns, d):
