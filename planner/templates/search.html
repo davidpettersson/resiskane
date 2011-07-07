@@ -69,9 +69,12 @@
 		   <span style="font-family: museo-normal; -moz-transform: rotate(0deg); background-color: white; -moz-transform-origin: 0 0; color: gray; text-shadow: none; font-size: 7pt; position: absolute; top: -10pt; left: 0pt; white-space: nowrap;">&darr; {{ link.departure_name }}, {{ link.departure_time }}</span>
 		   -->
 		{% if link.has_deviations %}<span style="color:red; font-weight: bold; font-family: museo-normal;">!</span>{% endif %}
-		{{ link.transport_short }}
+		{{ link.transport_short|safe }}
 		<div style="display: none;">
 		  <div class="innerHtml">
+		    {% if link.is_wait %}
+		    Väntetid {{ link.duration }} minuter.
+		    {% else %}
 		    <p>Avgår {{ link.departure_name }} kl {{ link.departure_time }}.</p>
 		    <p>Ankommer {{ link.arrival_name }} kl {{ link.arrival_time }}.</p>
 		    <p>Färdmedel {{ link.transport|lower }}.</p>
@@ -79,6 +82,7 @@
 		    {% for deviation in link.deviations %}
 		    <p class="deviation"><span class="deviation-header">Observera!</span> {{ deviation.getDetails }}</p>
 		    {% endfor %}
+		    {% endif %}
 		  </div>
 		</div>
 		<!--

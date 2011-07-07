@@ -231,6 +231,12 @@ li {
     background-image: -moz-linear-gradient(top, #eeeeee, #aaaaaa);
 }
 
+.box-color-white {
+    background-color: #cccccc;
+    background-image: -webkit-linear-gradient(top, #ffffff, #cccccc);
+    background-image: -moz-linear-gradient(top, #ffffff, #cccccc);
+}
+
 .box-color-gray {
     background-color: #888888;
     background-image: -webkit-linear-gradient(top, #e0e0e0, #888888);
