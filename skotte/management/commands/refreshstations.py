@@ -7,7 +7,8 @@ class Command(BaseCommand):
     help = 'Refreshes all stations in the database'
 
     def _clearDatabase(self):
-        pass
+        stations = Station.objects.all()
+        stations.delete()
 
     def _populateDatabase(self):
         pass
