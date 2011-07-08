@@ -1,17 +1,22 @@
 from django.core.management.base import BaseCommand, CommandError
-from resiskane.skotte.models import Station
 from time import time
+from resiskane.skotte.models import Station
+from resiskane.skotte.stations import populate_by_qs
 
 class Command(BaseCommand):
     args = 'None'
     help = 'Refreshes all stations in the database'
 
     def _clearDatabase(self):
-        stations = Station.objects.all()
-        stations.delete()
+        Station.objects.all().delete()
 
     def _populateDatabase(self):
-        pass
+        f = open('skotte/data/station-names', 'rt')
+        names = map(lambda s: s.strip().decode('utf-8'), f.readlines())
+        f.close()
+
+        for name in names:
+            populate_by_qs(name)
 
     def handle(self, *args, **options):
         try:
