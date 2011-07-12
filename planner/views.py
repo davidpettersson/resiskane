@@ -89,7 +89,7 @@ class LinkView(Segment):
             else:
                 short = 'Buss %s' % name
         elif type_ in 'Skåneexpressen':
-            if allow_short and self.pixel_length() < 90:
+            if allow_short and self.pixel_length() < 95:
                 short = 'SkE %s' % name.split()[1]
             else:
                 short = u'SkåneExpressen %s' % name.split()[1]
@@ -167,21 +167,34 @@ def transform_journey(j):
     else:
         time_left = 'om %d timmar' % (remainder / 60)
 
+    # produce all transport segments
     views = map(lambda l: LinkView(l), links)
 
+    # produce all inbetweens
     tweens = [ ]
-
     for k in range(len(links) - 1):
         prev, next = links[k], links[k+1]
         tweens.append(TweenView(prev, next))
 
+    # merge them
     views = list(fromeach(views, tweens))
+
+    # remove all zero inbetweens
+    zerotweenp = lambda item: isinstance(item, LinkView) or item.duration() > 0
+    len_before = len(views)
+    views = filter(zerotweenp, views)
+    len_after = len(views)
+
+    # TODO: Remove, just for debug
+    if len_before > len_after:
+        print 'YAY'
 
     prefix = {
         'when': day_ref,
         'remains': time_left,
         }
     views.insert(0, prefix)
+
     return views
 
 def transform_journeys(js):
@@ -221,6 +234,19 @@ def resolve(req):
     search_url = '/search?fr_id=%d&to_id=%d' % (r_fr[0].identifier, r_to[0].identifier)
     return redirect(search_url)
 
+def top_five_stations(start_name):
+    name = start_name[:]
+    while name:
+        stations = search_station(name)
+        if stations and len(stations) > 4:
+            break
+        else:
+            name = name[:-1]
+    if stations and len(stations) > 4:
+        return filter(lambda s: s.name != start_name, stations[0:5])
+    else:
+        return [ ]
+
 def search(req):
 
     fr_id = int(req.GET['fr_id'])
@@ -232,8 +258,14 @@ def search(req):
     fr = Station.objects.get(identifier=fr_id)
     to = Station.objects.get(identifier=to_id)
 
-    fr_alts = search_station(fr.name)
-    to_alts = search_station(to.name)
+    fr_alts = top_five_stations(fr.name)
+    to_alts = top_five_stations(to.name)
+
+    if len(fr_alts) == 1 and fr_alts[0] == fr:
+        fr_alts = [ ]
+
+    if len(to_alts) == 1 and to_alts[0] == to:
+        to_alts = [ ]
 
     info = {
         'fr': fr,
@@ -252,5 +284,5 @@ def robots(req):
 
 def ajax_stations(req):
     req_term = req.GET['term']
-    stations = search_station(req_term)
+    stations = search_station(req_term)[:10]
     return render_to_response('ajax_stations.json', { 'stations': stations })
