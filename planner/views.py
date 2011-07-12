@@ -276,13 +276,15 @@ def search(req):
         }
     return render_to_response('search.html', info)
 
-def css(req):
-    return render_to_response('planner.css')
-
 def robots(req):
     return render_to_response('robots.txt')
+
+def station_list(req):
+    stations = Station.objects.all().order_by('name')
+    return render_to_response('station_list.html', { 'objects': stations })
 
 def ajax_stations(req):
     req_term = req.GET['term']
     stations = search_station(req_term)[:10]
     return render_to_response('ajax_stations.json', { 'stations': stations })
+

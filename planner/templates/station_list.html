@@ -1,0 +1,11 @@
+<html>
+  <body>
+    <div style="-moz-column-count: 3; -moz-column-gap: 2em;">
+    <ol>
+      {% for st in objects %}
+      <li>{{ st.name }} <a href="/start?fr_id={{ st.identifier }}">(sök från)</a></li>
+      {% endfor %}
+    </ol>
+    </div>
+  </body>
+</html>
