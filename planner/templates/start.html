@@ -1,56 +1,37 @@
 {% extends "base.html" %}
 {% block body %}
-<body class="yui-skin-sam">
+<div class="yui-skin-sam">
   <div id="doc2" class="yui-t7">
     <div id="hd">
       <!-- no header -->
     </div>
     <div id="bd">
       <div class="yui-g">
-
 	<div class="image-box">
-	
-	<!-- logo -->
-	<div class="logo-box-large">
-	  <h1 class="logo" id="logo-large-center">
-	    <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
-	  </h1>
-	</div>
+	  <!-- logo -->
+	  <div class="logo-box-large">
+	    <h1 class="logo" id="logo-large-center">
+	      <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
+	    </h1>
+	  </div>
+	  <!-- tagline -->
+	  <div class="tagline-large">
+	    <p>En alternativ reseplanerare för resor med kollektivtrafiken i Skåne.</p>
+	  </div>
 
-	<!-- tagline -->
-	<div class="tagline-large">
-	  <p>En alternativ reseplanerare för resor med kollektivtrafiken i Skåne.</p>
-	</div>
-
-	<!-- search box -->
-	<div id="start-search-box">
-	  <form name="search_form" method="GET" action="/resolve" onSubmit="return check_search_form()">
-	    <input id="search_fr" type="text" name="fr" value="{{ fr.name }}" placeholder="Från" onKeyPress="return submit_on_enter(this, event)"/>
-	    <input id="search_to" type="text" name="to" value="{{ to.name }}" placeholder="Till" onKeyPress="return submit_on_enter(this, event)"/>
-	    <input class="search-button" type="submit" value="Sök"/>
-	  </form>
-	</div>
-	<div>
-
-      </div>
-      
-      <div class="image-credit image-credit-bottom-right"><a href="http://www.flickr.com/photos/kalleboo/5234079655/">Hyllie station / kalleboo</a></div>
-
-    </div><!-- image box -->
-
-    <div class="search-error-messages"></div>
-
-    <div id="ft">
-      <div class="footer">
-	<p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
-	
-	<p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.</p>
-	
-	<p style="color: #aa7777;">Resegarantin gäller ej pga felaktigheter på denna webbplats.</p>
-	<p style="color: #aa7777;">Denna webbplats drivs ej av Skånetrafiken.</p>
-	
+	  <!-- search box -->
+	  <div id="start-search-box">
+	    <form name="search_form" method="GET" action="/resolve" onSubmit="return check_search_form()">
+	      <input id="search_fr" type="text" name="fr" value="{{ fr.name }}" placeholder="Från" onKeyPress="return submit_on_enter(this, event)"/>
+	      <input id="search_to" type="text" name="to" value="{{ to.name }}" placeholder="Till" onKeyPress="return submit_on_enter(this, event)"/>
+	      <input class="search-button" type="submit" value="Sök"/>
+	    </form>
+	  </div>
+          <div class="image-credit image-credit-bottom-right"><a href="http://www.flickr.com/photos/kalleboo/5234079655/">Hyllie station / kalleboo</a></div>
+        </div><!-- image box -->
+        <div class="search-error-messages"></div>
       </div>
     </div>
   </div>
-</body>
+</div>
 {% endblock %}
