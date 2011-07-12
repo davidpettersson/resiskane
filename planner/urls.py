@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
-
-from views import start, start_anonymous, resolve, search, css, robots, ajax_stations
-import settings
+from settings import DEBUG, STATIC_DOC_ROOT
+from views import *
 
 urlpatterns = patterns('',
     # Example:
@@ -9,13 +8,13 @@ urlpatterns = patterns('',
     (r'^start', start),
     (r'^resolve', resolve),
     (r'^search', search),
-    (r'^css', css),
     (r'^robots.txt$', robots),
+    (r'^stations', station_list),
     (r'^ajax/stations', ajax_stations),
 )
 
-if settings.DEBUG:
+if DEBUG:
     urlpatterns += patterns('', 
         (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.STATIC_DOC_ROOT}),
+        {'document_root': STATIC_DOC_ROOT}),
     )
