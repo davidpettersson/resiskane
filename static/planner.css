@@ -108,6 +108,10 @@ li {
     font-family: museo-heavy;
 }
 
+.logo a {
+    text-decoration: none;
+}
+
 .footer {
     margin: 1pt auto;
     width: 550px;
