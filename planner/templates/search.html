@@ -24,22 +24,22 @@
 <div id="doc3" class="yui-t2">
   <div id="hd" class="hd-result">
 
-    <!-- logo -->
-    <div id="logo-box">
-      <h1 class="logo" id="logo-small-left">
-	<span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span><span class="beta">beta</span>
-      </h1>
-    </div>
+      <form id="search_form" method="get" action="/resolve" onSubmit="return check_search_form()">
 
-    <!-- result search box -->
-    <div id="result-search-box">
-      <form name="search_form" method="get" action="/resolve" onSubmit="return check_search_form()">
-	<input id="search_fr" size="25" type="text" name="fr" placeholder="Från" value="{{fr.name}}" onKeyPress="return submit_on_enter(this, event)"/>
-	<input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to.name}}" onKeyPress="return submit_on_enter(this, event)"/>
-	<input class="search-button" type="submit" value="Sök"/>
+	<div id="logo-box">
+	  <h1 class="logo" id="logo-small-left">
+	    <span style="color: #aa0000;">res</span><span style="color: #e8c711;">i</span><span style="color: #aa0000;">skåne</span>
+	  </h1>
+	</div>
+
+	<div id="result-search-box">
+	  <input id="search_fr" size="25" type="text" name="fr" placeholder="Från" value="{{fr.name}}" onKeyPress="return submit_on_enter(this, event)"/>
+	  <input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to.name}}" onKeyPress="return submit_on_enter(this, event)"/>
+	  <input class="search-button" type="submit" value="Sök"/>
+	</div>
+	
       </form>
-    </div>
-    
+
     <!-- search error message -->
     <div class="search-error-messages"></div>
 	  
@@ -99,31 +99,43 @@
       </div>
     </div>
 
-    <div class="yui-b" style="border-right: solid 1px lightgray;">
+    <div class="yui-b">
 
+      {% if fr_alts or to_alts %}
       <h2>Ville du..?</h2>
 
       <!-- did you mean? -->
       <div class="did-you-mean">
+	
+	{% if fr_alts %}
 	<p>
-	  Ville du åka från:
+	  ...åka <em>från</em>:
 	  <ul>
 	    {% for fr_alt in fr_alts %}
 	    <li><a href="/search?fr_id={{ fr_alt.identifier }}&amp;to_id={{ to.identifier }}">{{ fr_alt.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	</p>
+	{% endif %}
 
+	{% if to_alts %}
 	<p>
-	  Eller kanske åka till:
+	  ...kanske åka <em>till</em>:
 	  <ul>
 	    {% for to_alt in to_alts %}
 	    <li><a href="/search?fr_id={{ fr.identifier }}&amp;to_id={{ to_alt.identifier }}">{{ to_alt.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	</p>
+	{% endif %}
+
+	<p style="padding-top: 1em;">
+	  <iframe src="http://www.facebook.com/plugins/like.php?app_id=215717241792160&amp;href=http%3A%2F%2Fwww.resiskane.se&amp;send=false&amp;layout=button_count&amp;width=240&amp;show_faces=true&amp;action=recommend&amp;colorscheme=light&amp;font=trebuchet+ms&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:240px; height:21px;" allowTransparency="true"></iframe>
+	</p>
 
       </div>
+      {% endif %}
+
 
     </div>
 
@@ -139,6 +151,7 @@
 
     </div>
   </div>
+</div>
 </body>
 {% endblock %}
 
