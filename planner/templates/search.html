@@ -20,12 +20,10 @@
   });
 {% endblock %}
 {% block body %}
-<body class="yui-skin-sam image-box-top">
-
+<div class="yui-skin-sam image-box-top">
   <div class="image-credit image-credit-top-right"><a href="http://www.flickr.com/photos/kalleboo/5234079655/">Hyllie station / kalleboo</a></div>
-
-<div id="doc3" class="yui-t2">
-  <div id="hd" class="hd-result">
+  <div id="doc3" class="yui-t2">
+    <div id="hd" class="hd-result">
 
       <form id="search_form" method="get" action="/resolve" onSubmit="return check_search_form()">
 
@@ -40,13 +38,11 @@
 	  <input id="search_to" size="25" type="text" name="to" placeholder="Till" value="{{to.name}}" onKeyPress="return submit_on_enter(this, event)"/>
 	  <input class="search-button" type="submit" value="Sök"/>
 	</div>
-	
       </form>
-
-    <!-- search error message -->
-    <div class="search-error-messages"></div>
-	  
   </div>
+
+  <!-- search error message -->
+  <div class="search-error-messages"></div>
 
   <div id="bd">
     <div id="yui-main">
@@ -149,23 +145,9 @@
 
       </div>
       {% endif %}
-
-    </div>
-
-  </div>
-  <div id="ft">
-    <div class="footer">
-      <p>Frågor? <a href="mailto:info@resiskane.se">Kontakta</a> oss gärna! Sökresultat via <a href="http://www.labs.skanetrafiken.se">Skånetrafiken API</a>.</p>
-      
-      <p>Kolla även in iPhone-applikationen <a href="http://itunes.apple.com/se/app/id305963116">Res i Skåne</a>. Samma namn, annan författare.</p>
-      
-      <p style="color: #aa7777;">Resegarantin gäller ej pga felaktigheter på denna webbplats.</p>
-      <p style="color: #aa7777;">Denna webbplats drivs ej av Skånetrafiken.</p>
-
     </div>
   </div>
 </div>
-</body>
 {% endblock %}
 
 {% block content %}
