@@ -147,11 +147,17 @@ li {
 }
 
 .search-error-messages {
-    width: 20em;
+    margin-top: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 35em;
     text-align: center;
     font-family: museo-normal;
     font-size: 12pt;
-    background-color: pink;
+    color: pink;
+    text-shadow: black 0pt 0pt 3pt;
+    opacity:0.9;
+    filter:alpha(opacity=90)
 }
 
 #logo-large-center {
