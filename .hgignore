@@ -2,4 +2,4 @@ syntax: glob
 *.pyc
 *~
 secret_key.py
-
+resiskane.db
