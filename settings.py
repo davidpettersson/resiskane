@@ -7,16 +7,22 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'resiskane',
-        'USER': 'david',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+if not DEBUG:
+    import database_definition
+    DATABASES = database_definition.DATABASES
+else:
+    # Debug mode is usually the internal testing mode,
+    # so we override the database selection here.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'resiskane.db',
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',
+            'PORT': '',
+        }
     }
-}
 
 TIME_ZONE = 'Europe/Stockholm'
 
