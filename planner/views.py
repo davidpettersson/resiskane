@@ -255,23 +255,11 @@ def search(req):
     journeys = search_journey(fr_id, to_id, datetime.now())
     journeys = transform_journeys(journeys)
 
-    fr = Station.objects.get(identifier=fr_id)
-    to = Station.objects.get(identifier=to_id)
-
-    fr_alts = top_five_stations(fr.name)
-    to_alts = top_five_stations(to.name)
-
-    if len(fr_alts) == 1 and fr_alts[0] == fr:
-        fr_alts = [ ]
-
-    if len(to_alts) == 1 and to_alts[0] == to:
-        to_alts = [ ]
-
-    info = {
-        'fr': fr,
-        'to': to,
-        'fr_alts': fr_alts,
-        'to_alts': to_alts,
+    info = { 
+        'fr': r_fr[0].getName(),
+        'to': r_to[0].getName(),
+        'fr_alts': map(lambda x: x.getName(), r_fr[1:6]),
+        'to_alts': map(lambda x: x.getName(), r_to[1:6]),
         'journeys': journeys,
         }
     return render_to_response('search.html', info)
