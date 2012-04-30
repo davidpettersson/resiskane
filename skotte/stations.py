@@ -31,7 +31,6 @@ def populate_by_qs(s, output=stdout):
             station.name = point.find(NS + 'Name').text
             station.x = int(point.find(NS + 'X').text)
             station.y = int(point.find(NS + 'Y').text)
-            station.metaphone = dm(point.find(NS + 'Name').text)[0]
             station.save()
             output.write('  STORED %s\n' % station.name.encode('utf-8'))
         except Station.MultipleObjectsReturned:
