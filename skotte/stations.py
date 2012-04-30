@@ -7,7 +7,6 @@ from StringIO import StringIO
 from models import Station
 from network import send_req
 from constants import NS
-from metaphone import dm
 from sys import stdout
 
 def lookup_station(ident):

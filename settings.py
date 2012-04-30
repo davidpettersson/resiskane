@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -23,6 +23,10 @@ else:
             'PORT': '',
         }
     }
+
+HAYSTACK_SITECONF = 'resiskane.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = 'resiskane.index'
 
 TIME_ZONE = 'Europe/Stockholm'
 
@@ -75,5 +79,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'resiskane.planner',
     'resiskane.skotte',
+    'haystack',
     'south'
 )
+
