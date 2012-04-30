@@ -12,22 +12,15 @@ from datetime import datetime
 from constants import NS, TRANSPORT_MAP
 from network import send_req
 from stations import lookup_station
-from metaphone import dm
+from haystack.query import SearchQuerySet
 
 def search_station(qs):
     hits = [ ]
-    try:
-        hits.append(Station.objects.get(name__iexact=qs))
-    except Station.DoesNotExist:
-        pass
 
-    mp = dm(qs)[0]
-    for st in Station.objects.filter(metaphone__istartswith=mp):
-        if not st in hits:
-            hits.append(st)
-    for st in Station.objects.filter(metaphone__icontains=mp):
-        if not st in hits:
-            hits.append(st)
+    sqs = SearchQuerySet().autocomplete(name_auto=qs)
+    res = map(lambda h: h.object, sqs)
+    hits.extend(res)
+                    
     return hits
 
 def _parse_date_time(ns, d):
@@ -99,4 +92,3 @@ if __name__ == '__main__':
         ls = j.getLinks()
         for l in ls:
             print l.getDepartureStation().name, l.getDepartureTime()
-
